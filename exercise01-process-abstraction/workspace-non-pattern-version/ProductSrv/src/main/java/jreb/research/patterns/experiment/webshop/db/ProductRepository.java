@@ -2,6 +2,7 @@ package jreb.research.patterns.experiment.webshop.db;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import jreb.research.patterns.experiment.webshop.api.Product;
@@ -9,9 +10,11 @@ import jreb.research.patterns.experiment.webshop.api.Product;
 public class ProductRepository {
 
 	private AtomicLong productIdCounter;
+	private Random randomizer;
 
 	public ProductRepository() {
 		this.productIdCounter = new AtomicLong();
+		this.randomizer = new Random();
 	}
 
 	public List<Product> search(int limit) {
@@ -43,6 +46,13 @@ public class ProductRepository {
 	public boolean deleteById(long productId) {
 
 		return true;
+	}
+
+	public int getAvailableProductAmount(long productId) {
+		final int max = 15;
+		final int min = 0;
+
+		return this.randomizer.nextInt(max + 1 - min) + min;
 	}
 
 }

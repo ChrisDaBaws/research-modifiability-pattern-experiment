@@ -19,9 +19,14 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.codahale.metrics.annotation.Timed;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
+import jreb.research.patterns.experiment.webshop.api.BaseResponse;
 import jreb.research.patterns.experiment.webshop.api.Product;
+import jreb.research.patterns.experiment.webshop.api.ProductAvailabilityCheckResponse;
 import jreb.research.patterns.experiment.webshop.db.ProductRepository;
 
 @Path("/products")
@@ -29,10 +34,12 @@ import jreb.research.patterns.experiment.webshop.db.ProductRepository;
 public class ProductResource {
 	private final long defaultCategoryId;
 	private ProductRepository productRepository;
+	private Logger log;
 
 	public ProductResource(long defaultCategoryId, ProductRepository repository) {
 		this.defaultCategoryId = defaultCategoryId;
 		this.productRepository = repository;
+		this.log = LoggerFactory.getLogger(ProductResource.class);
 	}
 
 	@GET
@@ -54,33 +61,41 @@ public class ProductResource {
 
 	@POST
 	@Timed
-	public Response createProduct(@NotNull @Valid Product product) {
+	public BaseResponse createProduct(@NotNull @Valid Product product) {
 		if (product.getCategoryId() == 0) {
 			product.setCategoryId(defaultCategoryId);
 		}
 		final Product createdProduct = productRepository.store(product);
 
-		return Response.created(UriBuilder.fromResource(ProductResource.class).build(createdProduct)).build();
-
+		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}
 
 	@Path("/{id}")
 	@PUT
 	@Timed
-	public Response updateProduct(@PathParam("id") LongParam productId, @NotNull @Valid Product product) {
+	public BaseResponse updateProduct(@PathParam("id") LongParam productId, @NotNull @Valid Product product) {
 		final Product updatedProduct = productRepository.update(productId.get(), product);
 
-		return Response.created(UriBuilder.fromResource(ProductResource.class).build(updatedProduct)).build();
-
+		return new BaseResponse("OK", 204, "Product with ID " + updatedProduct.getId() + " successfully updated.");
 	}
-	
+
 	@Path("/{id}")
 	@DELETE
 	@Timed
-	public Response deleteProduct(@PathParam("id") LongParam productId) {
+	public BaseResponse deleteProduct(@PathParam("id") LongParam productId) {
 		final boolean deleted = productRepository.deleteById(productId.get());
 
-		return Response.created(UriBuilder.fromResource(ProductResource.class).build(deleted)).build();
+		return new BaseResponse(deleted ? "OK" : "FAILED", deleted ? 202 : 400,
+				deleted ? "Product with ID " + productId.get() + " successfully deleted."
+						: "Failed to delete product with ID " + productId.get() + ".");
+	}
 
+	@Path("/{id}/availability")
+	@GET
+	@Timed
+	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId) {
+		final int amount = productRepository.getAvailableProductAmount(productId.get());
+
+		return new ProductAvailabilityCheckResponse(productId.get(), (amount > 0), amount);
 	}
 }
