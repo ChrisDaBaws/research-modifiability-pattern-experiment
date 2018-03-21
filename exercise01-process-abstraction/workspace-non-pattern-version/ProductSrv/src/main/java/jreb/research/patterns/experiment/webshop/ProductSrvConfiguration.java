@@ -1,7 +1,5 @@
 package jreb.research.patterns.experiment.webshop;
 
-import javax.validation.Valid;
-import io.dropwizard.db.DataSourceFactory;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -24,19 +22,4 @@ public class ProductSrvConfiguration extends Configuration {
 	public long getDefaultCategoryId() {
 		return this.defaultCategoryId;
 	}
-	
-	@Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
-
-    @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
-        this.database = factory;
-    }
-
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
-    }
-
 }
