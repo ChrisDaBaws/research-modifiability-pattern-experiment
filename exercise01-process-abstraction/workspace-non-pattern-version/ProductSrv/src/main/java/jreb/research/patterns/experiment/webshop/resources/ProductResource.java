@@ -14,8 +14,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -93,9 +91,11 @@ public class ProductResource {
 	@Path("/{id}/availability")
 	@GET
 	@Timed
-	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId) {
-		final int amount = productRepository.getAvailableProductAmount(productId.get());
+	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId,
+			@QueryParam("amount") @DefaultValue("1") IntParam requestedAmount) {
+		final int availableAmount = productRepository.getAvailableProductAmount(productId.get());
 
-		return new ProductAvailabilityCheckResponse(productId.get(), (amount > 0), amount);
+		return new ProductAvailabilityCheckResponse(productId.get(), (availableAmount - requestedAmount.get() > 1),
+				availableAmount);
 	}
 }
