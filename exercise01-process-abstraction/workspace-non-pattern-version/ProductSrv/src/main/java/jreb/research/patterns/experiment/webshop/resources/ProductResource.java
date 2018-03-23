@@ -38,6 +38,7 @@ public class ProductResource {
 		this.defaultCategoryId = defaultCategoryId;
 		this.productRepository = repository;
 		this.log = LoggerFactory.getLogger(ProductResource.class);
+		log.info("ProductResource instantiated...");
 	}
 
 	@GET

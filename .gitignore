@@ -27,3 +27,5 @@ bin/
 .project
 .classpath
 dependency-reduced-pom.xml
+.recommenders/
+.metadata/

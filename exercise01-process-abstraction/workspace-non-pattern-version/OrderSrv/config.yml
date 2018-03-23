@@ -1,5 +1,3 @@
-defaultCreditRating: 3
-
 server:
   applicationConnectors:
   - type: http

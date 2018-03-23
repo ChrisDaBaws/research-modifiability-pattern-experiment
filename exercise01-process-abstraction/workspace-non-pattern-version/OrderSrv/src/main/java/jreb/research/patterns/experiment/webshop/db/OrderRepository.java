@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import jreb.research.patterns.experiment.webshop.api.Order;
+import jreb.research.patterns.experiment.webshop.api.OrderItem;
 
 public class OrderRepository {
 
@@ -20,9 +21,10 @@ public class OrderRepository {
 	public List<Order> search(int limit) {
 		final List<Order> orders = new ArrayList<Order>();
 		final List<OrderItem> items = new ArrayList<OrderItem>();
-		final OrderItem item1 = new OrderItem(1,10);
-		final OrderItem item2 = new OrderItem(2,5);
-		items.add(item1).add(item2);
+		final OrderItem item1 = new OrderItem(1, 10);
+		final OrderItem item2 = new OrderItem(2, 5);
+		items.add(item1);
+		items.add(item2);
 		final Order order = new Order(1, 1, items);
 		orders.add(order);
 		return orders;
@@ -30,9 +32,10 @@ public class OrderRepository {
 
 	public Order getById(long orderId) {
 		final List<OrderItem> items = new ArrayList<OrderItem>();
-		final OrderItem item1 = new OrderItem(1,10);
-		final OrderItem item2 = new OrderItem(2,5);
-		items.add(item1).add(item2);
+		final OrderItem item1 = new OrderItem(1, 10);
+		final OrderItem item2 = new OrderItem(2, 5);
+		items.add(item1);
+		items.add(item2);
 		final Order order = new Order(1, 1, items);
 
 		return order;

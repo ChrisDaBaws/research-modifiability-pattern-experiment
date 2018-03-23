@@ -38,6 +38,7 @@ public class CustomerResource {
 		this.defaultCreditRating = defaultCreditRating;
 		this.customerRepository = repository;
 		this.log = LoggerFactory.getLogger(CustomerResource.class);
+		log.info("CustomerResource instantiated...");
 	}
 
 	@GET
