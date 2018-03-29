@@ -1,0 +1,12 @@
+server:
+  applicationConnectors:
+  - type: http
+    port: 8020
+  adminConnectors:
+  - type: http
+    port: 8021
+
+logging:
+  level: INFO
+  loggers:
+    patternexperiment: DEBUG
