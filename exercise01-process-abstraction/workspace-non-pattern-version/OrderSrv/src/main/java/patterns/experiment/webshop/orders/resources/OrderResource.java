@@ -67,7 +67,7 @@ public class OrderResource {
 	public BaseResponse createOrder(@NotNull @Valid Order order) {
 		BaseResponse response;
 		final long customerId = order.getCustomerId();
-		final String creditRatingUrl = "http://localhost:8010/customers/" + customerId + "/credit-rating";
+		final String creditRatingUrl = "http://localhost:8010/customers/" + customerId + "/credit-rating-check";
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer

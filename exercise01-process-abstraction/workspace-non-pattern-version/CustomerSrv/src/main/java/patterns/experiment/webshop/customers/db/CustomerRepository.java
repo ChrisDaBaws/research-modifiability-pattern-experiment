@@ -1,6 +1,6 @@
 package patterns.experiment.webshop.customers.db;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,16 +11,16 @@ public class CustomerRepository {
 
 	private AtomicLong customerIdCounter;
 	private Random randomizer;
+	private List<Customer> customers;
 
 	public CustomerRepository() {
 		this.customerIdCounter = new AtomicLong();
 		this.randomizer = new Random();
+		// this.customers = new ArrayList<Customer>();
+		this.customers = Arrays.asList(new Customer(1, "TestCustomer", "customer@test.com", 3));
 	}
 
 	public List<Customer> search(int limit) {
-		final List<Customer> customers = new ArrayList<Customer>();
-		final Customer customer = new Customer(1, "TestCustomer", "customer@test.com", 3);
-		customers.add(customer);
 		return customers;
 	}
 

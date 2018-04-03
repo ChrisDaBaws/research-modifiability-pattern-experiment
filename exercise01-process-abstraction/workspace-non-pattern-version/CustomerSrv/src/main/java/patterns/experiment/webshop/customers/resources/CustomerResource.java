@@ -89,7 +89,7 @@ public class CustomerResource {
 						: "Failed to delete customer with ID " + customerId.get() + ".");
 	}
 
-	@Path("/{id}/credit-rating")
+	@Path("/{id}/credit-rating-check")
 	@GET
 	@Timed
 	public CreditRatingCheckResponse updateAndCheckCreditRating(@PathParam("id") LongParam customerId) {
