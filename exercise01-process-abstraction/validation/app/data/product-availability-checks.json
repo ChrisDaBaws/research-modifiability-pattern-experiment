@@ -1,0 +1,49 @@
+[{
+    "productId": 1,
+    "amount": 3,
+    "successful": {
+        "expected": true,
+        "achieved": false
+    },
+    "message": "Should be accepted"
+}, {
+    "productId": 1,
+    "amount": 4,
+    "successful": {
+        "expected": false,
+        "achieved": false
+    },
+    "message": "Should be rejected"
+}, {
+    "productId": 2,
+    "amount": 2,
+    "successful": {
+        "expected": true,
+        "achieved": false
+    },
+    "message": "Should be accepted"
+}, {
+    "productId": 2,
+    "amount": 3,
+    "successful": {
+        "expected": false,
+        "achieved": false
+    },
+    "message": "Should be rejected"
+}, {
+    "productId": 3,
+    "amount": 1,
+    "successful": {
+        "expected": true,
+        "achieved": false
+    },
+    "message": "Should be accepted"
+}, {
+    "productId": 3,
+    "amount": 2,
+    "successful": {
+        "expected": false,
+        "achieved": false
+    },
+    "message": "Should be rejected"
+}]

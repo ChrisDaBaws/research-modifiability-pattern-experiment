@@ -1,0 +1,29 @@
+.main {
+    padding: 15px;
+}
+
+.message-field {
+    padding: 15px;
+    min-height: 50px;
+}
+
+.status-icon {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.test-headings {
+    padding: 5px;
+    color: white;
+    background-color: green;
+}
+
+.fail {
+    background-color: red;
+}
+
+.container {
+    max-width: 100%;
+}
