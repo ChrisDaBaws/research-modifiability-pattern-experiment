@@ -13,9 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -58,6 +60,11 @@ public class OrderResource {
 	@Timed
 	public Order getOrderById(@PathParam("id") LongParam orderId) {
 		final Order order = orderRepository.getById(orderId.get());
+
+		if (order == null) {
+			final String msg = String.format("Order with ID %d does not exist...", orderId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
 
 		return order;
 	}

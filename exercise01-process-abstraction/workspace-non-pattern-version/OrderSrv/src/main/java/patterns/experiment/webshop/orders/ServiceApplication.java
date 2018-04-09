@@ -2,6 +2,9 @@ package patterns.experiment.webshop.orders;
 
 import javax.ws.rs.client.Client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
@@ -35,6 +38,9 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		final OrderResource orderResource = new OrderResource(orderRepository, restClient);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck();
+
+		ObjectMapper mapper = environment.getObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(orderResource);

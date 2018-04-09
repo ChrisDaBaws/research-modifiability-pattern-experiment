@@ -13,7 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -55,6 +57,11 @@ public class CustomerResource {
 	public Customer getCustomerById(@PathParam("id") LongParam customerId) {
 		final Customer customer = customerRepository.getById(customerId.get());
 
+		if (customer == null) {
+			final String msg = String.format("Customer with ID %d does not exist...", customerId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
 		return customer;
 	}
 
@@ -93,9 +100,18 @@ public class CustomerResource {
 	@GET
 	@Timed
 	public CreditRatingCheckResponse updateAndCheckCreditRating(@PathParam("id") LongParam customerId) {
-		log.info("Updating credit rating for customer with ID " + customerId.get() + "...");
+		log.info("Revalidating credit rating for customer with ID " + customerId.get() + "...");
 
 		final int rating = customerRepository.updateAndGetRating(customerId.get());
-		return new CreditRatingCheckResponse(customerId.get(), (rating < 4));
+
+		if (rating == -1) {
+			final String msg = String.format("Customer with ID %d does not exist...", customerId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
+		// 1 --> best rating
+		// 6 --> worst rating
+		final int WORST_ALLOWED_RATING = 3;
+		return new CreditRatingCheckResponse(customerId.get(), (rating <= WORST_ALLOWED_RATING));
 	}
 }

@@ -2,8 +2,6 @@ package patterns.experiment.webshop.products.api;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,22 +10,22 @@ public class Product {
 	private long id;
 	@NotEmpty
 	private String name;
-	@NotNull
 	@Min(1)
 	private long categoryId;
-	@NotNull
 	@DecimalMin("0.01")
 	private double price;
+	private int availableAmount;
 
 	public Product() {
 		// Jackson deserialization
 	}
 
-	public Product(long id, String name, long categoryId, double price) {
+	public Product(long id, String name, long categoryId, double price, int availableAmount) {
 		this.id = id;
 		this.name = name;
 		this.categoryId = categoryId;
 		this.price = price;
+		this.availableAmount = availableAmount;
 	}
 
 	@JsonProperty
@@ -52,6 +50,15 @@ public class Product {
 	@JsonProperty
 	public double getPrice() {
 		return price;
+	}
+
+	@JsonProperty
+	public int getAvailableAmount() {
+		return availableAmount;
+	}
+
+	public void setAvailableAmount(int availableAmount) {
+		this.availableAmount = availableAmount;
 	}
 
 }

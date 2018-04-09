@@ -19,6 +19,8 @@ public class Customer {
 	@NotNull
 	@Min(1)
 	@Max(6)
+	// 1 --> best rating
+	// 6 --> worst rating
 	private int creditRating;
 
 	public Customer() {

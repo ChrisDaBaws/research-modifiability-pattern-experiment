@@ -1,5 +1,8 @@
 package patterns.experiment.webshop.customers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -32,6 +35,9 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 				customerRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck(configuration.getDefaultCreditRating());
+		
+		ObjectMapper mapper = environment.getObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(customerResource);

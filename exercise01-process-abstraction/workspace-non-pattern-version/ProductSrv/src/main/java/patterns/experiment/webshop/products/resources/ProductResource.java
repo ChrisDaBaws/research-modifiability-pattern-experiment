@@ -13,7 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -55,6 +57,11 @@ public class ProductResource {
 	public Product getProductById(@PathParam("id") LongParam productId) {
 		final Product product = productRepository.getById(productId.get());
 
+		if (product == null) {
+			final String msg = String.format("Product with ID %d does not exist...", productId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
 		return product;
 	}
 
@@ -94,9 +101,18 @@ public class ProductResource {
 	@Timed
 	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId,
 			@QueryParam("amount") @DefaultValue("1") IntParam requestedAmount) {
+
+		log.info("Checking availability for product with ID " + productId.get() + " for the amount of "
+				+ requestedAmount.get() + "...");
 		final int availableAmount = productRepository.getAvailableProductAmount(productId.get());
 
-		return new ProductAvailabilityCheckResponse(productId.get(), (availableAmount - requestedAmount.get() > 2),
-				requestedAmount.get());
+		if (availableAmount == -1) {
+			final String msg = String.format("Product with ID %d does not exist...", productId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
+		final int MINIMAL_REMAINING_AMOUNT_NECESSARY = 3;
+		return new ProductAvailabilityCheckResponse(productId.get(),
+				(availableAmount - requestedAmount.get() >= MINIMAL_REMAINING_AMOUNT_NECESSARY), requestedAmount.get());
 	}
 }

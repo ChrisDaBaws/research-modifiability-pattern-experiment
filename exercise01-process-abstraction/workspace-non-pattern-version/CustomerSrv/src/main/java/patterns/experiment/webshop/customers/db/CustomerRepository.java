@@ -2,7 +2,7 @@ package patterns.experiment.webshop.customers.db;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import patterns.experiment.webshop.customers.api.Customer;
@@ -10,29 +10,44 @@ import patterns.experiment.webshop.customers.api.Customer;
 public class CustomerRepository {
 
 	private AtomicLong customerIdCounter;
-	private Random randomizer;
 	private List<Customer> customers;
 
 	public CustomerRepository() {
 		this.customerIdCounter = new AtomicLong();
-		this.randomizer = new Random();
-		// this.customers = new ArrayList<Customer>();
-		this.customers = Arrays.asList(new Customer(1, "TestCustomer", "customer@test.com", 3));
+
+		this.customers = Arrays.asList(
+				new Customer(customerIdCounter.incrementAndGet(), "TestCustomer1", "customer1@test.com", 5),
+				new Customer(customerIdCounter.incrementAndGet(), "TestCustomer2", "customer2@test.com", 4),
+				new Customer(customerIdCounter.incrementAndGet(), "TestCustomer3", "customer3@test.com", 3),
+				new Customer(customerIdCounter.incrementAndGet(), "TestCustomer4", "customer4@test.com", 2),
+				new Customer(customerIdCounter.incrementAndGet(), "TestCustomer5", "customer5@test.com", 1));
 	}
 
 	public List<Customer> search(int limit) {
+		if (limit > 0) {
+			return customers.subList(0, Math.min(customers.size(), limit));
+		}
+
 		return customers;
 	}
 
 	public Customer getById(long customerId) {
-		final Customer customer = new Customer(customerId, "TestCustomer", "customer@test.com", 3);
+		Customer foundCustomer = null;
 
-		return customer;
+		for (Customer customer : customers) {
+			if (customer.getId() == customerId) {
+				foundCustomer = customer;
+				break;
+			}
+		}
+
+		return foundCustomer;
 	}
 
 	public Customer store(Customer customer) {
 		final Customer createdCustomer = new Customer(customerIdCounter.incrementAndGet(), customer.getName(),
 				customer.getEmail(), customer.getCreditRating());
+		this.customers.add(createdCustomer);
 
 		return createdCustomer;
 	}
@@ -49,10 +64,23 @@ public class CustomerRepository {
 	}
 
 	public int updateAndGetRating(long customerId) {
-		final int max = 6;
-		final int min = 1;
+		int creditRating = -1;
 
-		return this.randomizer.nextInt(max + 1 - min) + min;
+		// Simulate updating the rating via an external agency
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		for (Customer customer : customers) {
+			if (customer.getId() == customerId) {
+				creditRating = customer.getCreditRating();
+				break;
+			}
+		}
+
+		return creditRating;
 	}
 
 }

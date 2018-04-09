@@ -1,8 +1,7 @@
 package patterns.experiment.webshop.orders.db;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import patterns.experiment.webshop.orders.api.Order;
@@ -11,38 +10,42 @@ import patterns.experiment.webshop.orders.api.OrderItem;
 public class OrderRepository {
 
 	private AtomicLong orderIdCounter;
-	private Random randomizer;
+	private List<Order> orders;
 
 	public OrderRepository() {
 		this.orderIdCounter = new AtomicLong();
-		this.randomizer = new Random();
+		this.orders = Arrays.asList(
+				new Order(orderIdCounter.incrementAndGet(), 1, Arrays.asList(new OrderItem(1, 1), new OrderItem(2, 1))),
+				new Order(orderIdCounter.incrementAndGet(), 1, Arrays.asList(new OrderItem(2, 1), new OrderItem(3, 2))),
+				new Order(orderIdCounter.incrementAndGet(), 2, Arrays.asList(new OrderItem(2, 2))),
+				new Order(orderIdCounter.incrementAndGet(), 2, Arrays.asList(new OrderItem(1, 1), new OrderItem(3, 2))),
+				new Order(orderIdCounter.incrementAndGet(), 3, Arrays.asList(new OrderItem(2, 1))));
 	}
 
 	public List<Order> search(int limit) {
-		final List<Order> orders = new ArrayList<Order>();
-		final List<OrderItem> items = new ArrayList<OrderItem>();
-		final OrderItem item1 = new OrderItem(1, 10);
-		final OrderItem item2 = new OrderItem(2, 5);
-		items.add(item1);
-		items.add(item2);
-		final Order order = new Order(1, 1, items);
-		orders.add(order);
+		if (limit > 0) {
+			return orders.subList(0, Math.min(orders.size(), limit));
+		}
 		return orders;
 	}
 
 	public Order getById(long orderId) {
-		final List<OrderItem> items = new ArrayList<OrderItem>();
-		final OrderItem item1 = new OrderItem(1, 10);
-		final OrderItem item2 = new OrderItem(2, 5);
-		items.add(item1);
-		items.add(item2);
-		final Order order = new Order(1, 1, items);
+		Order foundOrder = null;
 
-		return order;
+		for (Order order : orders) {
+			if (order.getId() == orderId) {
+				foundOrder = order;
+				break;
+			}
+		}
+
+		return foundOrder;
 	}
 
 	public Order store(Order order) {
 		final Order createdOrder = new Order(orderIdCounter.incrementAndGet(), order.getCustomerId(), order.getItems());
+		this.orders.add(createdOrder);
+
 		return createdOrder;
 	}
 
@@ -54,13 +57,6 @@ public class OrderRepository {
 
 	public boolean deleteById(long orderId) {
 		return true;
-	}
-
-	public int updateAndGetRating(long orderId) {
-		final int max = 6;
-		final int min = 1;
-
-		return this.randomizer.nextInt(max + 1 - min) + min;
 	}
 
 }
