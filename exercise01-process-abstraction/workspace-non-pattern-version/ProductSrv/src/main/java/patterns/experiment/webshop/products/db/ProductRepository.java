@@ -1,5 +1,6 @@
 package patterns.experiment.webshop.products.db;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -14,11 +15,12 @@ public class ProductRepository {
 
 	public ProductRepository() {
 		this.productIdCounter = new AtomicLong();
-		this.products = Arrays.asList(new Product(productIdCounter.incrementAndGet(), "TestProduct1", 1, 12.5, 5),
-				new Product(productIdCounter.incrementAndGet(), "TestProduct2", 1, 13, 4),
-				new Product(productIdCounter.incrementAndGet(), "TestProduct3", 2, 15, 3),
-				new Product(productIdCounter.incrementAndGet(), "TestProduct4", 2, 3.99, 2),
-				new Product(productIdCounter.incrementAndGet(), "TestProduct5", 3, 7.20, 1));
+		this.products = new ArrayList<Product>(
+				Arrays.asList(new Product(productIdCounter.incrementAndGet(), "TestProduct1", 1, 12.5, 5),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct2", 1, 13, 4),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct3", 2, 15, 3),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct4", 2, 3.99, 2),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct5", 3, 7.20, 1)));
 	}
 
 	public List<Product> search(int limit) {

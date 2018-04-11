@@ -1,5 +1,6 @@
 package patterns.experiment.webshop.marketing;
 
+import patterns.experiment.webshop.marketing.api.Customer;
 import patterns.experiment.webshop.marketing.api.Order;
 
 public class EmailClient {
@@ -8,9 +9,9 @@ public class EmailClient {
 		// MAGIC CONFIGURATION
 	}
 
-	public boolean sendMarketingMail(long customerId, Order order) {
+	public boolean sendMarketingMail(String type, Customer customer, Order order) {
 		// SEND MAGIC MARKETING MAIL
-		return true;
+		return type.equalsIgnoreCase("SIMILAR_PRODUCTS_MAIL");
 	}
 
 }

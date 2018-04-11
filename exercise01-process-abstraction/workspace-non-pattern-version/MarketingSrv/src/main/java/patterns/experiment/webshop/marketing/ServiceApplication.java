@@ -15,6 +15,7 @@ import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import patterns.experiment.webshop.marketing.db.MailRepository;
 import patterns.experiment.webshop.marketing.health.StandardHealthCheck;
 import patterns.experiment.webshop.marketing.resources.MarketingResource;
 
@@ -24,6 +25,8 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		new ServiceApplication().run(args);
 	}
 
+	private MailRepository mailRepository;
+
 	@Override
 	public String getName() {
 		return "OrderSrv";
@@ -31,7 +34,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 	@Override
 	public void initialize(final Bootstrap<ServiceConfiguration> bootstrap) {
-
+		this.mailRepository = new MailRepository();
 	}
 
 	@Override
@@ -39,7 +42,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		final EmailClient mailClient = new EmailClient();
 		final Client restClient = new JerseyClientBuilder(environment)
 				.using(configuration.getJerseyClientConfiguration()).build(getName());
-		final MarketingResource orderResource = new MarketingResource(restClient, mailClient);
+		final MarketingResource orderResource = new MarketingResource(restClient, mailClient, mailRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck();
 

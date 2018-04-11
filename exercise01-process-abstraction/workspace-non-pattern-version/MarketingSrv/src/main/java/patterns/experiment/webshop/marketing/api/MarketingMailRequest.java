@@ -1,39 +1,53 @@
 package patterns.experiment.webshop.marketing.api;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MarketingMailRequest {
-	@Min(1)
-	private long customerId;
-	@Min(1)
-	private long orderId;
+	private long id;
+	@NotEmpty
+	private String type;
+	@NotNull
+	private Order order;
 
 	public MarketingMailRequest() {
 		// Jackson deserialization
 	}
 
-	public MarketingMailRequest(long customerId, long orderId) {
-		this.customerId = customerId;
-		this.orderId = orderId;
+	public MarketingMailRequest(long id, String type, Order order) {
+		this.id = id;
+		this.type = type;
+		this.order = order;
 	}
 
 	@JsonProperty
-	public long getCustomerId() {
-		return customerId;
+	public long getId() {
+		return id;
 	}
 
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	@JsonProperty
-	public long getOrderId() {
-		return orderId;
+	public String getType() {
+		return type;
 	}
 
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@JsonProperty
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 }

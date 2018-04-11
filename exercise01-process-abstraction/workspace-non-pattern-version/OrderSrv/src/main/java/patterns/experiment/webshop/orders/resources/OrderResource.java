@@ -78,12 +78,14 @@ public class OrderResource {
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer
-
+		log.info("Checking credit rating of customer with ID " + customerId + "...");
 		final Invocation.Builder creditRatingRequest = restClient.target(creditRatingUrl).request();
 		final CreditRatingCheckResponse creditRatingResponse = creditRatingRequest.get(CreditRatingCheckResponse.class);
 
 		if (creditRatingResponse.getAcceptable()) {
 			// Permitted --> credit rating sufficient
+			log.info("Credit rating of customer with ID " + order.getCustomerId()
+					+ " acceptable! Checking product availability...");
 
 			// Check availability of all order items
 			boolean itemsAvailable = true;
@@ -112,14 +114,16 @@ public class OrderResource {
 						"Order with ID " + createdOrder.getId() + " successfully created.");
 			} else {
 				// Items not available --> decline order
-				response = new BaseResponse("DECLINED", 400,
-						"Order declined: items not available in required capacity.");
+				throw new WebApplicationException("Order declined for customer with ID " + order.getCustomerId()
+						+ ": items not available in required capacity.", Status.BAD_REQUEST);
 			}
 
 		} else {
 			// Declined --> credit rating too low
-			log.info("Order declined because credit rating too low.");
-			response = new BaseResponse("DECLINED", 400, "Order declined: credit rating too low.");
+			log.info("Order declined for customer with ID " + order.getCustomerId() + ": credit rating too low.");
+			throw new WebApplicationException(
+					"Order declined for customer with ID " + order.getCustomerId() + ": credit rating too low.",
+					Status.BAD_REQUEST);
 		}
 
 		return response;

@@ -6,6 +6,10 @@ server:
   - type: http
     port: 8021
 
+jerseyClient:
+  timeout: 5s
+  connectionTimeout: 5s
+
 logging:
   level: INFO
   loggers:
