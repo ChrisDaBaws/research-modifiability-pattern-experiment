@@ -1,0 +1,59 @@
+[{
+        "orderDescription": "Customer6, 3xProduct1",
+        "order": {
+            "customerId": 6,
+            "items": [{
+                "productId": 1,
+                "amount": 3
+            }]
+        },
+        "successful": {
+            "expected": true,
+            "achieved": false
+        },
+        "message": "Order should be accepted, marketing mail should be sent"
+    }, {
+        "orderDescription": "Customer6, 3xProduct3",
+        "order": {
+            "customerId": 6,
+            "items": [{
+                "productId": 3,
+                "amount": 3
+            }]
+        },
+        "successful": {
+            "expected": false,
+            "achieved": false
+        },
+        "message": "Order should be rejected, no marketing mail"
+    },
+    {
+        "orderDescription": "Customer1, 1xProduct1",
+        "order": {
+            "customerId": 1,
+            "items": [{
+                "productId": 1,
+                "amount": 1
+            }]
+        },
+        "successful": {
+            "expected": false,
+            "achieved": false
+        },
+        "message": "Order should be rejected, no marketing mail"
+    }, {
+        "orderDescription": "Customer3, 3xProduct1",
+        "order": {
+            "customerId": 3,
+            "items": [{
+                "productId": 1,
+                "amount": 3
+            }]
+        },
+        "successful": {
+            "expected": true,
+            "achieved": false
+        },
+        "message": "Order should be accepted, marketing mail should be sent"
+    }
+]

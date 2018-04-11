@@ -5,7 +5,7 @@
         "expected": true,
         "achieved": false
     },
-    "message": "Should be accepted"
+    "message": "Amount 3 should be accepted"
 }, {
     "productId": 1,
     "amount": 4,
@@ -13,7 +13,7 @@
         "expected": false,
         "achieved": false
     },
-    "message": "Should be rejected"
+    "message": "Amount 4 should be rejected"
 }, {
     "productId": 2,
     "amount": 2,
@@ -21,7 +21,7 @@
         "expected": true,
         "achieved": false
     },
-    "message": "Should be accepted"
+    "message": "Amount 2 should be accepted"
 }, {
     "productId": 2,
     "amount": 3,
@@ -29,7 +29,7 @@
         "expected": false,
         "achieved": false
     },
-    "message": "Should be rejected"
+    "message": "Amount 3 should be rejected"
 }, {
     "productId": 3,
     "amount": 1,
@@ -37,7 +37,7 @@
         "expected": true,
         "achieved": false
     },
-    "message": "Should be accepted"
+    "message": "Amount 1 should be accepted"
 }, {
     "productId": 3,
     "amount": 2,
@@ -45,5 +45,5 @@
         "expected": false,
         "achieved": false
     },
-    "message": "Should be rejected"
+    "message": "Amount 2 should be rejected"
 }]

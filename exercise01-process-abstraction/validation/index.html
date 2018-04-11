@@ -12,97 +12,55 @@
     <link rel="stylesheet" href="app/main.css">
 
     <script src="node_modules/axios/dist/axios.min.js"></script>
-    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
 </head>
 
 <body>
-    <container class="main">
+    <div id="main">
         <h1>Validation of Exercise 01</h1>
+        <hr>
+        <blockquote>
+            <p>
+                <strong>Manual validation necessary:</strong> Check the output log of the OrderSrv, if the correct order of process
+                steps is executed:</p>
+            <ol>
+                <li>Product availability check</li>
+                <li>Customer credit rating check</li>
+                <li>Create order (is also checked automatically)</li>
+                <li>Send marketing mail (is also checked automatically)</li>
+            </ol>
+        </blockquote>
         <button v-on:click="startValidation">Start Validation</button>
         <hr>
-
         <div class="container">
             <div class="row">
                 <div class="column">
-                    <test-results title="Credit Rating Check Results" v-bind:results="creditRatingCheckResults" v-bind:tableHeaders="['Customer ID', 'Goal', 'Status']"
-                        idKey="customerId"></test-results>
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <pre class="message-field" v-if="message1!==''">{{message1}}</pre>
-                    <div v-if="validationFinished1">
-                        <h2 class="test-headings" v-bind:class="{fail: hasFailed(creditRatingCheckResults)}">Credit Rating Check Results</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Customer ID</th>
-                                    <th>Goal</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="result in creditRatingCheckResults" v-bind:key="result.customerId">
-                                    <td>{{result.customerId}}</td>
-                                    <td>{{result.message}}</td>
-                                    <td>
-                                        {{result.successful.expected === result.successful.achieved}}
-                                        <img v-if="result.successful.expected === result.successful.achieved" class="status-icon" src="app/img/success.png">
-                                        <img v-if="result.successful.expected !== result.successful.achieved" class="status-icon" src="app/img/fail.png">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <hr>
-                    </div>
+                    <test-results v-bind:test="creditRatingTest"></test-results>
                 </div>
                 <div class="column">
-                    <pre class="message-field" v-if="message2!==''">{{message2}}</pre>
-                    <div v-if="validationFinished2">
-                        <h2 class="test-headings" v-bind:class="{fail: hasFailed(productAvailabilityCheckResults)}">Product Availability Check Results</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Amount</th>
-                                    <th>Goal</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="result in productAvailabilityCheckResults" v-bind:key="result.productId">
-                                    <td>{{result.productId}}</td>
-                                    <td>{{result.amount}}</td>
-                                    <td>{{result.message}}</td>
-                                    <td>
-                                        {{result.successful.expected === result.successful.achieved}}
-                                        <img v-if="result.successful.expected === result.successful.achieved" class="status-icon" src="app/img/success.png">
-                                        <img v-if="result.successful.expected !== result.successful.achieved" class="status-icon" src="app/img/fail.png">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <hr>
-                    </div>
+                    <test-results v-bind:test="productAvailabilityTest"></test-results>
+                </div>
+                <div class="column">
+                    <test-results v-bind:test="orderTest"></test-results>
                 </div>
             </div>
         </div>
-    </container>
+    </div>
 
     <script type="text/x-template" id="results-component">
-        <template>
-            <pre class="message-field" v-if="message!==''">{{message}}</pre>
-            <div v-if="validationFinished">
-                <h2 class="test-headings" v-bind:class="{fail: hasFailed(results)}">{{title}}</h2>
+        <div>
+            <pre class="message-field" v-if="test.message!==''">{{test.message}}</pre>
+            <div v-if="test.validationFinished">
+                <h2 class="test-headings" v-bind:class="{fail: hasFailed(test.results)}">{{test.title}}</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th v-for="header in tableHeaders" v-bind:key="header">header</th>
+                            <th v-for="header in test.tableHeaders" v-bind:key="header">{{header}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="result in results" v-bind:key="result[idKey]">
-                            <td>{{result[idKey]}}</td>
+                        <tr v-for="(result, index) in test.results" v-bind:key="index">
+                            <td>{{result[test.idKey]}}</td>
                             <td>{{result.message}}</td>
                             <td>
                                 {{result.successful.expected === result.successful.achieved}}
@@ -112,14 +70,11 @@
                         </tr>
                     </tbody>
                 </table>
-                <hr>
             </div>
-        </template>
+        </div>
     </script>
 
-
     <script src="app/main.js"></script>
-    <script src="app/results-component.js"></script>
 </body>
 
 </html>
