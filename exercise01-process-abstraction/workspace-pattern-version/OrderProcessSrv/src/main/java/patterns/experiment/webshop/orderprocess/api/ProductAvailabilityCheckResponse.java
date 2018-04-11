@@ -1,4 +1,4 @@
-package patterns.experiment.webshop.products.api;
+package patterns.experiment.webshop.orderprocess.api;
 
 import javax.validation.constraints.Min;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductAvailabilityCheckResponse {
 	@Min(1)
 	private long productId;
-	private boolean available;
+	@Min(0)
+	private int availableAmount;
 	@Min(1)
 	private int requestedAmount;
 
@@ -14,9 +15,9 @@ public class ProductAvailabilityCheckResponse {
 		// Jackson deserialization
 	}
 
-	public ProductAvailabilityCheckResponse(long productId, boolean available, int requestedAmount) {
+	public ProductAvailabilityCheckResponse(long productId, int availableAmount, int requestedAmount) {
 		this.productId = productId;
-		this.available = available;
+		this.availableAmount = availableAmount;
 		this.requestedAmount = requestedAmount;
 	}
 
@@ -26,8 +27,8 @@ public class ProductAvailabilityCheckResponse {
 	}
 
 	@JsonProperty
-	public boolean getAvailable() {
-		return available;
+	public int getAvailableAmount() {
+		return availableAmount;
 	}
 
 	@JsonProperty

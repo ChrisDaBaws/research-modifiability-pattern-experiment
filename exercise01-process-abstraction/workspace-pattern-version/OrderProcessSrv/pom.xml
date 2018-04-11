@@ -8,17 +8,17 @@
 	</prerequisites>
 
 	<groupId>patternexperiment</groupId>
-	<artifactId>OrderSrv</artifactId>
+	<artifactId>OrderProcessSrv</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>OrderSrv</name>
+	<name>OrderProcessSrv</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dropwizard.version>1.3.0</dropwizard.version>
-		<mainClass>patterns.experiment.webshop.orders.ServiceApplication</mainClass>
+		<mainClass>patterns.experiment.webshop.orderprocess.ServiceApplication</mainClass>
 	</properties>
 
 	<dependencyManagement>
