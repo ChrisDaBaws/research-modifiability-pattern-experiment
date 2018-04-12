@@ -27,9 +27,10 @@ import io.dropwizard.jersey.params.LongParam;
 import patterns.experiment.webshop.products.api.BaseResponse;
 import patterns.experiment.webshop.products.api.Product;
 import patterns.experiment.webshop.products.api.ProductAvailabilityCheckResponse;
+import patterns.experiment.webshop.products.api.ProductCategory;
 import patterns.experiment.webshop.products.db.ProductRepository;
 
-@Path("/products")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductResource {
 	private final long defaultCategoryId;
@@ -43,19 +44,22 @@ public class ProductResource {
 		log.info("ProductResource instantiated...");
 	}
 
+	// Product resources
+
+	@Path("/products")
 	@GET
 	@Timed
 	public List<Product> getProducts(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
-		final List<Product> products = productRepository.search(limit.get());
+		final List<Product> products = productRepository.searchProducts(limit.get());
 
 		return products;
 	}
 
-	@Path("/{id}")
+	@Path("/products/{id}")
 	@GET
 	@Timed
 	public Product getProductById(@PathParam("id") LongParam productId) {
-		final Product product = productRepository.getById(productId.get());
+		final Product product = productRepository.getProductById(productId.get());
 
 		if (product == null) {
 			final String msg = String.format("Product with ID %d does not exist...", productId.get());
@@ -65,38 +69,39 @@ public class ProductResource {
 		return product;
 	}
 
+	@Path("/products")
 	@POST
 	@Timed
 	public BaseResponse createProduct(@NotNull @Valid Product product) {
 		if (product.getCategoryId() == 0) {
 			product.setCategoryId(defaultCategoryId);
 		}
-		final Product createdProduct = productRepository.store(product);
+		final Product createdProduct = productRepository.storeProduct(product);
 
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}
 
-	@Path("/{id}")
+	@Path("/products/{id}")
 	@PUT
 	@Timed
 	public BaseResponse updateProduct(@PathParam("id") LongParam productId, @NotNull @Valid Product product) {
-		final Product updatedProduct = productRepository.update(productId.get(), product);
+		final Product updatedProduct = productRepository.updateProduct(productId.get(), product);
 
 		return new BaseResponse("OK", 204, "Product with ID " + updatedProduct.getId() + " successfully updated.");
 	}
 
-	@Path("/{id}")
+	@Path("/products/{id}")
 	@DELETE
 	@Timed
 	public BaseResponse deleteProduct(@PathParam("id") LongParam productId) {
-		final boolean deleted = productRepository.deleteById(productId.get());
+		final boolean deleted = productRepository.deleteProductById(productId.get());
 
 		return new BaseResponse(deleted ? "OK" : "FAILED", deleted ? 202 : 400,
 				deleted ? "Product with ID " + productId.get() + " successfully deleted."
 						: "Failed to delete product with ID " + productId.get() + ".");
 	}
 
-	@Path("/{id}/availability")
+	@Path("/products/{id}/availability")
 	@GET
 	@Timed
 	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId,
@@ -115,4 +120,60 @@ public class ProductResource {
 		return new ProductAvailabilityCheckResponse(productId.get(),
 				(availableAmount - requestedAmount.get() >= MINIMAL_REMAINING_AMOUNT_NECESSARY), requestedAmount.get());
 	}
+
+	// Product category resources
+
+	@Path("/categories")
+	@GET
+	@Timed
+	public List<ProductCategory> getCategories(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
+		final List<ProductCategory> categories = productRepository.searchCategories(limit.get());
+
+		return categories;
+	}
+
+	@Path("/categories/{id}")
+	@GET
+	@Timed
+	public ProductCategory getCategoryById(@PathParam("id") LongParam categoryId) {
+		final ProductCategory category = productRepository.getCategoryById(categoryId.get());
+
+		if (category == null) {
+			final String msg = String.format("Category with ID %d does not exist...", categoryId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
+		return category;
+	}
+
+	@Path("/categories")
+	@POST
+	@Timed
+	public BaseResponse createCategory(@NotNull @Valid ProductCategory category) {
+		final ProductCategory createdCategory = productRepository.storeCategory(category);
+
+		return new BaseResponse("OK", 201, "Category with ID " + createdCategory.getId() + " successfully created.");
+	}
+
+	@Path("/categories/{id}")
+	@PUT
+	@Timed
+	public BaseResponse updateCategory(@PathParam("id") LongParam categoryId,
+			@NotNull @Valid ProductCategory category) {
+		final ProductCategory updatedCategory = productRepository.updateCategory(categoryId.get(), category);
+
+		return new BaseResponse("OK", 204, "Category with ID " + updatedCategory.getId() + " successfully updated.");
+	}
+
+	@Path("/categories/{id}")
+	@DELETE
+	@Timed
+	public BaseResponse deleteCategory(@PathParam("id") LongParam categoryId) {
+		final boolean deleted = productRepository.deleteCategoryById(categoryId.get());
+
+		return new BaseResponse(deleted ? "OK" : "FAILED", deleted ? 202 : 400,
+				deleted ? "Category with ID " + categoryId.get() + " successfully deleted."
+						: "Failed to delete category with ID " + categoryId.get() + ".");
+	}
+
 }
