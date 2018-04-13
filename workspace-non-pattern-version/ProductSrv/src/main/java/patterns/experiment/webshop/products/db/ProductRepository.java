@@ -2,7 +2,9 @@ package patterns.experiment.webshop.products.db;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import patterns.experiment.webshop.products.api.Product;
@@ -14,16 +16,17 @@ public class ProductRepository {
 	private AtomicLong categoryIdCounter;
 	private List<Product> products;
 	private List<ProductCategory> categories;
+	private Map<Long, Integer> warehouse;
 
 	public ProductRepository() {
 		this.productIdCounter = new AtomicLong();
 		this.categoryIdCounter = new AtomicLong();
 		this.products = new ArrayList<Product>(
-				Arrays.asList(new Product(productIdCounter.incrementAndGet(), "TestProduct1", 1, 12.5, 5),
-						new Product(productIdCounter.incrementAndGet(), "TestProduct2", 1, 13, 4),
-						new Product(productIdCounter.incrementAndGet(), "TestProduct3", 2, 15, 3),
-						new Product(productIdCounter.incrementAndGet(), "TestProduct4", 2, 3.99, 2),
-						new Product(productIdCounter.incrementAndGet(), "TestProduct5", 3, 7.20, 1)));
+				Arrays.asList(new Product(productIdCounter.incrementAndGet(), "TestProduct1", 1, 12.5),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct2", 1, 13),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct3", 2, 15),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct4", 2, 3.99),
+						new Product(productIdCounter.incrementAndGet(), "TestProduct5", 3, 7.20)));
 		this.categories = new ArrayList<ProductCategory>(Arrays.asList(
 				new ProductCategory(categoryIdCounter.incrementAndGet(), "TestCategory1", 0,
 						new ArrayList<String>(Arrays.asList("tag1"))),
@@ -31,6 +34,16 @@ public class ProductRepository {
 						new ArrayList<String>(Arrays.asList("tag2"))),
 				new ProductCategory(categoryIdCounter.incrementAndGet(), "TestCategory3", 0,
 						new ArrayList<String>(Arrays.asList("tag3")))));
+		this.warehouse = new HashMap<Long, Integer>() {
+			private static final long serialVersionUID = 1L;
+			{
+				put((long) 1, 5);
+				put((long) 2, 4);
+				put((long) 3, 3);
+				put((long) 4, 2);
+				put((long) 5, 1);
+			}
+		};
 	}
 
 	// Product methods
@@ -57,7 +70,7 @@ public class ProductRepository {
 
 	public Product storeProduct(Product product) {
 		final Product createdProduct = new Product(productIdCounter.incrementAndGet(), product.getName(),
-				product.getCategoryId(), product.getPrice(), product.getAvailableAmount());
+				product.getCategoryId(), product.getPrice());
 		this.products.add(createdProduct);
 
 		return createdProduct;
@@ -73,6 +86,8 @@ public class ProductRepository {
 
 		return true;
 	}
+	
+	// Warehouse methods
 
 	public int getAvailableProductAmount(long productId) {
 		int availableAmount = -1;
@@ -86,12 +101,16 @@ public class ProductRepository {
 
 		for (Product product : products) {
 			if (product.getId() == productId) {
-				availableAmount = product.getAvailableAmount();
+				availableAmount = warehouse.get(productId);
 				break;
 			}
 		}
 
 		return availableAmount;
+	}
+
+	public void setAvailableProductAmount(long productId, int amount) {
+		warehouse.put(productId, amount);
 	}
 
 	// Product category methods

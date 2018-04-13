@@ -13,9 +13,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import patterns.experiment.webshop.products.db.ProductCategoryRepository;
 import patterns.experiment.webshop.products.db.ProductRepository;
+import patterns.experiment.webshop.products.db.WarehouseRepository;
 import patterns.experiment.webshop.products.health.StandardHealthCheck;
+import patterns.experiment.webshop.products.resources.ProductCategoryResource;
 import patterns.experiment.webshop.products.resources.ProductResource;
+import patterns.experiment.webshop.products.resources.WarehouseResource;
 
 public class ServiceApplication extends Application<ServiceConfiguration> {
 
@@ -24,6 +28,8 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 	}
 
 	private ProductRepository productRepository;
+	private ProductCategoryRepository categoryRepository;
+	private WarehouseRepository warehouseRepository;
 
 	@Override
 	public String getName() {
@@ -33,6 +39,8 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 	@Override
 	public void initialize(final Bootstrap<ServiceConfiguration> bootstrap) {
 		this.productRepository = new ProductRepository();
+		this.categoryRepository = new ProductCategoryRepository();
+		this.warehouseRepository = new WarehouseRepository();
 	}
 
 	@Override
@@ -40,6 +48,10 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 		final ProductResource productResource = new ProductResource(configuration.getDefaultCategoryId(),
 				productRepository);
+
+		final ProductCategoryResource categoryResource = new ProductCategoryResource(categoryRepository);
+
+		final WarehouseResource warehouseResource = new WarehouseResource(warehouseRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck(configuration.getDefaultCategoryId());
 
@@ -56,6 +68,8 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(productResource);
+		environment.jersey().register(categoryResource);
+		environment.jersey().register(warehouseResource);
 	}
 
 }

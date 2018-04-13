@@ -1,4 +1,4 @@
-package patterns.experiment.webshop.products.api;
+package patterns.experiment.webshop.notifications.api;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;

@@ -26,7 +26,6 @@ import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
 import patterns.experiment.webshop.products.api.BaseResponse;
 import patterns.experiment.webshop.products.api.Product;
-import patterns.experiment.webshop.products.api.ProductAvailabilityCheckResponse;
 import patterns.experiment.webshop.products.db.ProductRepository;
 
 @Path("/products")
@@ -94,23 +93,5 @@ public class ProductResource {
 		return new BaseResponse(deleted ? "OK" : "FAILED", deleted ? 202 : 400,
 				deleted ? "Product with ID " + productId.get() + " successfully deleted."
 						: "Failed to delete product with ID " + productId.get() + ".");
-	}
-
-	@Path("/{id}/availability")
-	@GET
-	@Timed
-	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId,
-			@QueryParam("amount") @DefaultValue("1") IntParam requestedAmount) {
-
-		log.info("Checking availability for product with ID " + productId.get() + " for the amount of "
-				+ requestedAmount.get() + "...");
-		final int availableAmount = productRepository.getAvailableProductAmount(productId.get());
-
-		if (availableAmount == -1) {
-			final String msg = String.format("Product with ID %d does not exist...", productId.get());
-			throw new WebApplicationException(msg, Status.NOT_FOUND);
-		}
-
-		return new ProductAvailabilityCheckResponse(productId.get(), availableAmount, requestedAmount.get());
 	}
 }

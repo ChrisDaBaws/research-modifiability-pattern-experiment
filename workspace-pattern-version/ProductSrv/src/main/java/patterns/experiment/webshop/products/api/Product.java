@@ -14,18 +14,16 @@ public class Product {
 	private long categoryId;
 	@DecimalMin("0.01")
 	private double price;
-	private int availableAmount;
 
 	public Product() {
 		// Jackson deserialization
 	}
 
-	public Product(long id, String name, long categoryId, double price, int availableAmount) {
+	public Product(long id, String name, long categoryId, double price) {
 		this.id = id;
 		this.name = name;
 		this.categoryId = categoryId;
 		this.price = price;
-		this.availableAmount = availableAmount;
 	}
 
 	@JsonProperty
@@ -51,14 +49,4 @@ public class Product {
 	public double getPrice() {
 		return price;
 	}
-
-	@JsonProperty
-	public int getAvailableAmount() {
-		return availableAmount;
-	}
-
-	public void setAvailableAmount(int availableAmount) {
-		this.availableAmount = availableAmount;
-	}
-
 }

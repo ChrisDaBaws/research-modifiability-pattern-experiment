@@ -101,6 +101,8 @@ public class ProductResource {
 						: "Failed to delete product with ID " + productId.get() + ".");
 	}
 
+	// Warehouse resources
+
 	@Path("/products/{id}/availability")
 	@GET
 	@Timed
@@ -119,6 +121,19 @@ public class ProductResource {
 		final int MINIMAL_REMAINING_AMOUNT_NECESSARY = 3;
 		return new ProductAvailabilityCheckResponse(productId.get(),
 				(availableAmount - requestedAmount.get() >= MINIMAL_REMAINING_AMOUNT_NECESSARY), requestedAmount.get());
+	}
+
+	@Path("/products/{id}/availability")
+	@PUT
+	@Timed
+	public BaseResponse updateProductAvailability(@PathParam("id") LongParam productId,
+			@QueryParam("amount") @DefaultValue("1") IntParam amount) {
+
+		log.info("Setting available amount for product with ID " + productId.get() + " to " + amount.get() + "...");
+		productRepository.setAvailableProductAmount(productId.get(), amount.get());
+
+		return new BaseResponse("OK", 200,
+				"Available amount for product with ID " + productId.get() + " successfully updated.");
 	}
 
 	// Product category resources
