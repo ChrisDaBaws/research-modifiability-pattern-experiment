@@ -20,13 +20,11 @@
         <hr>
         <blockquote>
             <p>
-                <strong>Manual validation necessary:</strong> Check the output log of the OrderSrv, if the correct order of process
-                steps is executed:</p>
+                <strong>Manual validation necessary:</strong> Check the output log of the {{patternVersion ? "OrderProcessSrv" :
+                "OrderSrv"}}, if the correct order of process steps is executed:</p>
             <ol>
                 <li>Product availability check</li>
                 <li>Customer credit rating check</li>
-                <li>Create order (is also checked automatically)</li>
-                <li>Send marketing mail (is also checked automatically)</li>
             </ol>
         </blockquote>
         <button v-on:click="startValidation">Start Validation</button>

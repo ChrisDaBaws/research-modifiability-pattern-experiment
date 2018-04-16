@@ -11,6 +11,7 @@ Vue.component("test-results", {
 const app = new Vue({
     el: "#main",
     data: {
+        patternVersion: false,
         orderTest: {
             results: [],
             tableHeaders: ["Order", "Goal", "Status"],
@@ -28,6 +29,7 @@ const app = new Vue({
             // Change orderSrv endpoint URL for the pattern version
             console.log("Pattern version! Changing OrderSrv URL...");
             this.orderSrvEndpoint = "http://localhost:8040/order-process";
+            this.patternVersion = true;
         }).catch(e => {
             console.log("Non-pattern version! OrderSrv URL stays as is.");
         });
