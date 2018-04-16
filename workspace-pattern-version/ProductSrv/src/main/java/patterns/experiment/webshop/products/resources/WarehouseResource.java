@@ -31,7 +31,7 @@ public class WarehouseResource {
 	public WarehouseResource(WarehouseRepository repository) {
 		this.warehouseRepository = repository;
 		this.log = LoggerFactory.getLogger(WarehouseResource.class);
-		log.info("ProductResource instantiated...");
+		log.info("WarehouseResource instantiated...");
 	}
 
 	@Path("/{id}/availability")

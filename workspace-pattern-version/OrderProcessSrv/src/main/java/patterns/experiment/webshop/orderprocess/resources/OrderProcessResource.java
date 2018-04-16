@@ -34,7 +34,7 @@ public class OrderProcessResource {
 	public OrderProcessResource(Client restClient) {
 		this.restClient = restClient;
 		this.log = LoggerFactory.getLogger(OrderProcessResource.class);
-		log.info("OrderResource instantiated...");
+		log.info("OrderProcessResource instantiated...");
 	}
 
 	@POST

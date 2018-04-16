@@ -47,7 +47,7 @@ public class NotificationResource {
 		this.mailClient = mailClient;
 		this.mailRepository = repository;
 		this.log = LoggerFactory.getLogger(NotificationResource.class);
-		log.info("OrderResource instantiated...");
+		log.info("NotificationResource instantiated...");
 	}
 
 	// Marketing mails

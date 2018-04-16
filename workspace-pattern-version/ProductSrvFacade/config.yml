@@ -1,12 +1,14 @@
-defaultCategoryId: 1
-
 server:
   applicationConnectors:
-  - type: http 
-    port: 8050
+  - type: http
+    port: 8000
   adminConnectors:
   - type: http
-    port: 8051
+    port: 8001
+
+jerseyClient:
+  timeout: 5s
+  connectionTimeout: 5s
 
 logging:
   level: INFO
