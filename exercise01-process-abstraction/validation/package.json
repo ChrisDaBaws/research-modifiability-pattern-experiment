@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.html",
   "scripts": {
-    "start": "serve"
+    "start": "serve -p 5000"
   },
   "author": "Justus Bogner <justus.bogner@gmail.com>",
   "license": "MIT",
