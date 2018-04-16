@@ -8,20 +8,26 @@ Vue.component("test-results", {
     }
 });
 
-const app = new Vue({
-    el: "#main",
-    data: {
-        patternVersion: false,
-        orderTest: {
-            results: [],
-            tableHeaders: ["Order", "Goal", "Status"],
-            idKey: "orderDescription",
-            message: "",
-            title: "End-2-End Order Check Results",
-            validationFinished: false
-        },
-        marketingSrvEndpoint: "http://localhost:8030/marketing-mails",
-        orderSrvEndpoint: "http://localhost:8020/orders"
+const startpage = {
+    template: "#startpage"
+}
+
+const exercise01 = Vue.component("exercise01", {
+    template: "#exercise01",
+    data: function () {
+        return {
+            patternVersion: false,
+            orderTest: {
+                results: [],
+                tableHeaders: ["Order", "Goal", "Status"],
+                idKey: "orderDescription",
+                message: "",
+                title: "End-2-End Order Check Results",
+                validationFinished: false
+            },
+            marketingSrvEndpoint: "http://localhost:8030/marketing-mails",
+            orderSrvEndpoint: "http://localhost:8020/orders"
+        }
     },
 
     created() {
@@ -36,9 +42,7 @@ const app = new Vue({
     },
 
     methods: {
-
         startValidation() {
-
             // test order proccess adjustments end-2-end
             axios.get("app/data/order-checks.json").then(response => {
                 const testSpecs = response.data;
@@ -69,4 +73,49 @@ const app = new Vue({
             });
         }
     }
+});
+
+const exercise02 = Vue.component("exercise02", {
+    template: "#exercise02",
+    data: function () {
+        return {
+            patternVersion: false,
+            marketingSrvEndpoint: "http://localhost:8030/marketing-mails",
+            orderSrvEndpoint: "http://localhost:8020/orders"
+        }
+    },
+
+    created() {
+
+    },
+
+    methods: {
+        startValidation() {
+            // test order proccess adjustments end-2-end
+
+        }
+    }
+});
+
+const routes = [{
+        path: "/",
+        component: startpage
+    },
+    {
+        path: "/exercise01",
+        component: exercise01
+    },
+    {
+        path: "/exercise02",
+        component: exercise02
+    }
+];
+
+const router = new VueRouter({
+    routes
+});
+
+const app = new Vue({
+    el: "#main",
+    router
 });

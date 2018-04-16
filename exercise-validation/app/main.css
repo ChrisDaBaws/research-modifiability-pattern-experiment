@@ -2,6 +2,16 @@
     padding: 15px;
 }
 
+.back-button {
+    background-color: transparent;
+    border-color: black;
+    color: black;
+    font-size: .8rem;
+    height: 2.8rem;
+    line-height: 2.8rem;
+    padding: 0 1.5rem;
+}
+
 .message-field {
     padding: 15px;
     min-height: 50px;
