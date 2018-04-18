@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="node_modules/milligram/dist/milligram.min.css">
     <link rel="stylesheet" href="app/main.css">
 
-    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
     <script src="node_modules/vue/dist/vue.js"></script>
     <script src="node_modules/vue-router/dist/vue-router.js"></script>
 </head>
@@ -52,8 +52,11 @@
         <div>
             <h1>Exercises</h1>
             <hr>
-            <router-link class="button button-outline" to="/exercise01">Exercise 01</router-link>
-            <router-link class="button button-outline" to="/exercise02">Exercise 02</router-link>
+            <pre v-if="!versionDetermined">Please stand by...</pre>
+            <div v-if="versionDetermined">
+                <router-link class="button button-outline" to="/exercise01">Exercise 01</router-link>
+                <router-link class="button button-outline" to="/exercise02">Exercise 02</router-link>
+            </div>
         </div>
     </script>
 
@@ -63,7 +66,7 @@
             <hr>
             <blockquote>
                 <p>
-                    <strong>Manual validation necessary:</strong> Check the output log of the {{patternVersion ? "OrderProcessSrv"
+                    <strong>Manual validation necessary:</strong> Check the output log of the {{$patternVersion ? "OrderProcessSrv"
                     : "OrderSrv"}}, if the correct order of process steps is executed:</p>
                 <ol>
                     <li>Product availability check</li>

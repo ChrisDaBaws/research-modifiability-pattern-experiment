@@ -1,14 +1,14 @@
 server:
   applicationConnectors:
   - type: http
-    port: 8030
+    port: 8010
   adminConnectors:
   - type: http
-    port: 8031
+    port: 8011
 
 jerseyClient:
-  timeout: 5s
-  connectionTimeout: 5s
+  timeout: 10s
+  connectionTimeout: 10s
 
 logging:
   level: INFO

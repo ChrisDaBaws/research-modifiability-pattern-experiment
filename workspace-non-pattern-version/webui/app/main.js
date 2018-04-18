@@ -1,10 +1,10 @@
 const app = new Vue({
     el: "#main",
     data: {
-        productSrvEndpoint: "http://localhost:8000",
-        customerSrvEndpoint: "http://localhost:8010",
-        orderSrvEndpoint: "http://localhost:8020",
-        notificationSrvEndpoint: "http://localhost:8030",
+        customerSrvEndpoint: "http://localhost:8000",
+        notificationSrvEndpoint: "http://localhost:8010",
+        orderSrvEndpoint: "http://localhost:8030",
+        productSrvEndpoint: "http://localhost:8050",
         products: [],
         categories: [],
         customers: [],

@@ -44,8 +44,8 @@ public class OrderProcessResource {
 		final int MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY = 3;
 		BaseResponse response;
 		final long customerId = order.getCustomerId();
-		final String creditRatingUrl = "http://localhost:8010/customers/" + customerId + "/credit-rating-check";
-		final String orderCreationUrl = "http://localhost:8020/orders";
+		final String creditRatingUrl = "http://localhost:8000/customers/" + customerId + "/credit-rating-check";
+		final String orderCreationUrl = "http://localhost:8030/orders";
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer
@@ -64,7 +64,7 @@ public class OrderProcessResource {
 			Invocation.Builder productAvailabilityRequest;
 			ProductAvailabilityCheckResponse productAvailabilityResponse;
 			for (OrderItem item : items) {
-				productAvailabilityUrl = "http://localhost:8000/products/" + item.getProductId()
+				productAvailabilityUrl = "http://localhost:8040/products/" + item.getProductId()
 						+ "/availability?amount=" + item.getAmount();
 				productAvailabilityRequest = restClient.target(productAvailabilityUrl).request();
 				productAvailabilityResponse = productAvailabilityRequest.get(ProductAvailabilityCheckResponse.class);

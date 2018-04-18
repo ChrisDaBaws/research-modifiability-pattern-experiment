@@ -3,7 +3,6 @@ package patterns.experiment.webshop.customers.db;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import patterns.experiment.webshop.customers.api.Customer;
@@ -67,13 +66,6 @@ public class CustomerRepository {
 
 	public int updateAndGetRating(long customerId) {
 		int creditRating = -1;
-
-		// Simulate updating the rating via an external agency
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
 		for (Customer customer : customers) {
 			if (customer.getId() == customerId) {

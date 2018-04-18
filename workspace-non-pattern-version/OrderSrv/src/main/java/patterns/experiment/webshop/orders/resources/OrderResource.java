@@ -74,7 +74,7 @@ public class OrderResource {
 	public BaseResponse createOrder(@NotNull @Valid Order order) {
 		BaseResponse response;
 		final long customerId = order.getCustomerId();
-		final String creditRatingUrl = "http://localhost:8010/customers/" + customerId + "/credit-rating-check";
+		final String creditRatingUrl = "http://localhost:8000/customers/" + customerId + "/credit-rating-check";
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer
@@ -93,7 +93,7 @@ public class OrderResource {
 			Invocation.Builder productAvailabilityRequest;
 			ProductAvailabilityCheckResponse productAvailabilityResponse;
 			for (OrderItem item : items) {
-				productAvailabilityUrl = "http://localhost:8000/products/" + item.getProductId()
+				productAvailabilityUrl = "http://localhost:8050/products/" + item.getProductId()
 						+ "/availability?amount=" + item.getAmount();
 				productAvailabilityRequest = restClient.target(productAvailabilityUrl).request();
 				productAvailabilityResponse = productAvailabilityRequest.get(ProductAvailabilityCheckResponse.class);

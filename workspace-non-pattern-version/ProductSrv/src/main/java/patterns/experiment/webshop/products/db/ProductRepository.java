@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import patterns.experiment.webshop.products.api.Product;
 import patterns.experiment.webshop.products.api.ProductCategory;
@@ -86,18 +85,11 @@ public class ProductRepository {
 
 		return true;
 	}
-	
+
 	// Warehouse methods
 
 	public int getAvailableProductAmount(long productId) {
 		int availableAmount = -1;
-
-		// Simulate a complex availability check
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
 		for (Product product : products) {
 			if (product.getId() == productId) {

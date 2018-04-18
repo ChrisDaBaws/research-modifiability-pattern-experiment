@@ -3,10 +3,10 @@ defaultCategoryId: 1
 server:
   applicationConnectors:
   - type: http 
-    port: 8000
+    port: 8050
   adminConnectors:
   - type: http
-    port: 8001
+    port: 8051
 
 logging:
   level: INFO

@@ -1,3 +1,5 @@
+Vue.prototype.$patternVersion = undefined;
+
 Vue.component("test-results", {
     props: ["test"],
     template: "#results-component",
@@ -8,15 +10,30 @@ Vue.component("test-results", {
     }
 });
 
-const startpage = {
-    template: "#startpage"
-}
+const startpage = Vue.component("start-page", {
+    template: "#startpage",
+    data: function () {
+        return {
+            versionDetermined: false
+        };
+    },
+    created() {
+        axios.get("http://localhost:8021/healthcheck").then(response => {
+            console.log("Pattern version!");
+            Vue.prototype.$patternVersion = true;
+            this.versionDetermined = true;
+        }).catch(e => {
+            console.log("Non-pattern version!");
+            Vue.prototype.$patternVersion = false;
+            this.versionDetermined = true;
+        });
+    }
+});
 
 const exercise01 = Vue.component("exercise01", {
     template: "#exercise01",
     data: function () {
         return {
-            patternVersion: false,
             orderTest: {
                 results: [],
                 tableHeaders: ["Order", "Goal", "Status"],
@@ -25,20 +42,9 @@ const exercise01 = Vue.component("exercise01", {
                 title: "End-2-End Order Check Results",
                 validationFinished: false
             },
-            marketingSrvEndpoint: "http://localhost:8030/marketing-mails",
-            orderSrvEndpoint: "http://localhost:8020/orders"
+            notificationSrvEndpoint: "http://localhost:8010/marketing-mails",
+            orderSrvEndpoint: this.$patternVersion ? "http://localhost:8020/order-process" : "http://localhost:8030/orders"
         }
-    },
-
-    created() {
-        axios.get("http://localhost:8041/healthcheck").then(response => {
-            // Change orderSrv endpoint URL for the pattern version
-            console.log("Pattern version! Changing OrderSrv URL...");
-            this.orderSrvEndpoint = "http://localhost:8040/order-process";
-            this.patternVersion = true;
-        }).catch(e => {
-            console.log("Non-pattern version! OrderSrv URL stays as is.");
-        });
     },
 
     methods: {
@@ -60,7 +66,7 @@ const exercise01 = Vue.component("exercise01", {
                         } else {
                             // http success, further check for marketing mail
                             const orderId = parseInt(result.data.message.substring(result.data.message.indexOf("ID ") + 3, result.data.message.indexOf(" success")));
-                            axios.get(this.marketingSrvEndpoint).then(result => {
+                            axios.get(this.notificationSrvEndpoint).then(result => {
                                 result.data = result.data || [];
                                 testSpecs[index].successful.achieved = result.data.find(mail => mail.order.id === orderId) !== undefined;
                             });
@@ -79,19 +85,14 @@ const exercise02 = Vue.component("exercise02", {
     template: "#exercise02",
     data: function () {
         return {
-            patternVersion: false,
-            marketingSrvEndpoint: "http://localhost:8030/marketing-mails",
-            orderSrvEndpoint: "http://localhost:8020/orders"
+            notificationSrvEndpoint: "http://localhost:8010/marketing-mails",
+            orderSrvEndpoint: "http://localhost:8030/orders"
         }
-    },
-
-    created() {
-
     },
 
     methods: {
         startValidation() {
-            // test order proccess adjustments end-2-end
+            // test service decomposition end-2-end
 
         }
     }

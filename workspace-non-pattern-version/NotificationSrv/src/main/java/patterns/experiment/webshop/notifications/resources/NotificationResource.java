@@ -83,7 +83,7 @@ public class NotificationResource {
 		final String mailType = request.getType();
 
 		// Retrieve customer from CustomerSrv
-		final String customerUrl = "http://localhost:8010/customers/" + order.getCustomerId();
+		final String customerUrl = "http://localhost:8000/customers/" + order.getCustomerId();
 		final Invocation.Builder customerRequest = restClient.target(customerUrl).request();
 		final Customer customer = customerRequest.get(Customer.class);
 
