@@ -8,5 +8,5 @@ Required:
 - JDK >= 8
 - Maven >=3.5.0
 - Node.js >=8.0.0
-- A Java IDE (recommended: Ecplise)
+- A Java IDE (recommended: Eclipse)
 - A Web IDE (recommended: Visual Studio Code)
