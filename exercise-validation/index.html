@@ -29,7 +29,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th v-for="header in test.tableHeaders" v-bind:key="header">{{header}}</th>
+                            <th>Test</th>
+                            <th>Goal</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,7 +68,7 @@
             <hr>
             <blockquote>
                 <p>
-                    <strong>Manual validation necessary:</strong> Check the output log of the {{$patternVersion ? "OrderProcessSrv"
+                    <strong>Additional manual validation necessary:</strong> Check the output log of the {{$patternVersion ? "OrderProcessSrv"
                     : "OrderSrv"}}, if the correct order of process steps is executed:</p>
                 <ol>
                     <li>Product availability check</li>
@@ -91,7 +93,8 @@
             <hr>
             <blockquote>
                 <p>
-                    <strong>Manual validation necessary:</strong>
+                    <strong>Additional manual validation necessary:</strong> Check if the Web UI (http://localhost:5000) is running
+                    fine without errors.
                 </p>
             </blockquote>
             <button v-on:click="startValidation">Start Validation</button>
@@ -99,7 +102,7 @@
             <div class="container">
                 <div class="row">
                     <div class="column">
-                        <test-results v-bind:test="newServicesTest"></test-results>
+                        <test-results v-bind:test="decompositionTest"></test-results>
                     </div>
                 </div>
             </div>

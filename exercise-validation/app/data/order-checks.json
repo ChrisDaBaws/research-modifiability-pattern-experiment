@@ -1,5 +1,5 @@
 [{
-        "orderDescription": "Customer6, 3xProduct1",
+        "id": "Customer6, 3xProduct1",
         "order": {
             "customerId": 6,
             "items": [{
@@ -14,7 +14,7 @@
         "message": "Product Availability: Order should be accepted; marketing mail should be sent"
     },
     {
-        "orderDescription": "Customer6, 4xProduct1",
+        "id": "Customer6, 4xProduct1",
         "order": {
             "customerId": 6,
             "items": [{
@@ -29,7 +29,7 @@
         "message": "Product Availability: Order should be rejected"
     },
     {
-        "orderDescription": "Customer6, 2xProduct2",
+        "id": "Customer6, 2xProduct2",
         "order": {
             "customerId": 6,
             "items": [{
@@ -43,7 +43,7 @@
         },
         "message": "Product Availability: Order should be accepted; marketing mail should be sent"
     }, {
-        "orderDescription": "Customer6, 3xProduct2",
+        "id": "Customer6, 3xProduct2",
         "order": {
             "customerId": 6,
             "items": [{
@@ -57,7 +57,7 @@
         },
         "message": "Product Availability: Order should be rejected"
     }, {
-        "orderDescription": "Customer6, 1xProduct3",
+        "id": "Customer6, 1xProduct3",
         "order": {
             "customerId": 6,
             "items": [{
@@ -71,7 +71,7 @@
         },
         "message": "Product Availability: Order should be accepted; marketing mail should be sent"
     }, {
-        "orderDescription": "Customer6, 2xProduct3",
+        "id": "Customer6, 2xProduct3",
         "order": {
             "customerId": 6,
             "items": [{
@@ -85,7 +85,7 @@
         },
         "message": "Product Availability: Order should be rejected"
     }, {
-        "orderDescription": "Customer1, 1xProduct1",
+        "id": "Customer1, 1xProduct1",
         "order": {
             "customerId": 1,
             "items": [{
@@ -99,7 +99,7 @@
         },
         "message": "Credit Rating: Order should be rejected"
     }, {
-        "orderDescription": "Customer2, 1xProduct1",
+        "id": "Customer2, 1xProduct1",
         "order": {
             "customerId": 2,
             "items": [{
@@ -113,7 +113,7 @@
         },
         "message": "Credit Rating: Order should be rejected"
     }, {
-        "orderDescription": "Customer3, 1xProduct1",
+        "id": "Customer3, 1xProduct1",
         "order": {
             "customerId": 3,
             "items": [{
@@ -127,7 +127,7 @@
         },
         "message": "Credit Rating: Order should be accepted; marketing mail should be sent"
     }, {
-        "orderDescription": "Customer4, 1xProduct1",
+        "id": "Customer4, 1xProduct1",
         "order": {
             "customerId": 4,
             "items": [{
@@ -141,7 +141,7 @@
         },
         "message": "Credit Rating: Order should be accepted; marketing mail should be sent"
     }, {
-        "orderDescription": "Customer5, 1xProduct1",
+        "id": "Customer5, 1xProduct1",
         "order": {
             "customerId": 5,
             "items": [{

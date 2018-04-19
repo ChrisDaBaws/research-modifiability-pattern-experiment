@@ -10,7 +10,7 @@ Vue.component("test-results", {
     }
 });
 
-const startpage = Vue.component("start-page", {
+const startPage = Vue.component("start-page", {
     template: "#startpage",
     data: function () {
         return {
@@ -19,11 +19,11 @@ const startpage = Vue.component("start-page", {
     },
     created() {
         axios.get("http://localhost:8021/healthcheck").then(response => {
-            console.log("Pattern version!");
+            console.log("OrderProcessSrv detected... Pattern version!");
             Vue.prototype.$patternVersion = true;
             this.versionDetermined = true;
         }).catch(e => {
-            console.log("Non-pattern version!");
+            console.log("No OrderProcessSrv detected... Non-pattern version!");
             Vue.prototype.$patternVersion = false;
             this.versionDetermined = true;
         });
@@ -36,8 +36,7 @@ const exercise01 = Vue.component("exercise01", {
         return {
             orderTest: {
                 results: [],
-                tableHeaders: ["Order", "Goal", "Status"],
-                idKey: "orderDescription",
+                idKey: "id",
                 message: "",
                 title: "End-2-End Order Check Results",
                 validationFinished: false
@@ -85,22 +84,52 @@ const exercise02 = Vue.component("exercise02", {
     template: "#exercise02",
     data: function () {
         return {
-            notificationSrvEndpoint: "http://localhost:8010/marketing-mails",
-            orderSrvEndpoint: "http://localhost:8030/orders"
+            decompositionTest: {
+                results: [],
+                idKey: "id",
+                message: "",
+                title: "Decomposition Check Results",
+                validationFinished: false
+            }
         }
     },
 
     methods: {
         startValidation() {
             // test service decomposition end-2-end
-
+            axios.get("app/data/decomposition-checks.json").then(response => {
+                const testSpecs = response.data;
+                this.decompositionTest.validationFinished = false;
+                this.decompositionTest.message = "Validation started...";
+                const promises = [];
+                testSpecs.forEach(check => {
+                    if (check.config.url === "order") {
+                        check.config.url = this.$patternVersion ? "http://localhost:8020/order-process" : "http://localhost:8030/orders";
+                    }
+                    promises.push(axios(check.config).catch(e => e));
+                });
+                Promise.all(promises).then(results => {
+                    results.forEach((result, index) => {
+                        if ((result.response && result.response.status > 380) || result.data === undefined) {
+                            // http error
+                            testSpecs[index].successful.achieved = false;
+                        } else {
+                            // http success
+                            testSpecs[index].successful.achieved = true;
+                        }
+                    });
+                    this.decompositionTest.results = testSpecs;
+                    this.decompositionTest.message = "Validation finished!";
+                    this.decompositionTest.validationFinished = true;
+                });
+            });
         }
     }
 });
 
 const routes = [{
         path: "/",
-        component: startpage
+        component: startPage
     },
     {
         path: "/exercise01",
