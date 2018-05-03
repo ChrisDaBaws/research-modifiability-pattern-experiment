@@ -2,7 +2,6 @@ package patterns.experiment.webshop.products.db;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class WarehouseRepository {
 
@@ -23,14 +22,6 @@ public class WarehouseRepository {
 
 	public int getAvailableProductAmount(long productId) {
 		int availableAmount = -1;
-
-		// Simulate a complex availability check
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		if (warehouse.get(productId) != null) {
 			availableAmount = warehouse.get(productId);
 		}

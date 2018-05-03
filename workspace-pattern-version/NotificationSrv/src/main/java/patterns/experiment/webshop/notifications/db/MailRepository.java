@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import patterns.experiment.webshop.notifications.api.MarketingMailRequest;
 import patterns.experiment.webshop.notifications.api.NewProductMailRequest;
+import patterns.experiment.webshop.notifications.api.Product;
 
 public class MailRepository {
 
@@ -13,12 +14,14 @@ public class MailRepository {
 	private AtomicLong marketingMailIdCounter;
 	private List<NewProductMailRequest> productMails;
 	private AtomicLong productMailIdCounter;
+	private List<Product> newProducts;
 
 	public MailRepository() {
 		this.marketingMailIdCounter = new AtomicLong();
 		this.marketingMails = new ArrayList<MarketingMailRequest>();
 		this.productMailIdCounter = new AtomicLong();
 		this.productMails = new ArrayList<NewProductMailRequest>();
+		this.newProducts = new ArrayList<Product>();
 	}
 
 	// Marketing mails
@@ -79,5 +82,33 @@ public class MailRepository {
 		this.productMails.add(createdMail);
 
 		return createdMail;
+	}
+
+	// New products DB
+
+	public List<Product> searchNewProducts(int limit) {
+		if (limit > 0) {
+			return newProducts.subList(0, Math.min(newProducts.size(), limit));
+		}
+		return newProducts;
+	}
+
+	public Product getNewProductById(long productId) {
+		Product foundProduct = null;
+
+		for (Product product : newProducts) {
+			if (product.getId() == productId) {
+				foundProduct = product;
+				break;
+			}
+		}
+
+		return foundProduct;
+	}
+
+	public Product storeNewProduct(Product product) {
+		this.newProducts.add(product);
+
+		return product;
 	}
 }

@@ -1,11 +1,13 @@
 package patterns.experiment.webshop.products;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.Configuration;
+import io.dropwizard.client.JerseyClientConfiguration;
 
 public class ServiceConfiguration extends Configuration {
 
@@ -21,5 +23,19 @@ public class ServiceConfiguration extends Configuration {
 	@JsonProperty
 	public long getDefaultCategoryId() {
 		return this.defaultCategoryId;
+	}
+
+	@Valid
+	@NotNull
+	private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+
+	@JsonProperty("jerseyClient")
+	public JerseyClientConfiguration getJerseyClientConfiguration() {
+		return jerseyClient;
+	}
+
+	@JsonProperty("jerseyClient")
+	public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient) {
+		this.jerseyClient = jerseyClient;
 	}
 }

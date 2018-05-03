@@ -146,4 +146,40 @@ public class NotificationResource {
 
 		return response;
 	}
+
+	// New products DB
+
+	@Path("/new-products")
+	@GET
+	@Timed
+	public List<Product> getNewProducts(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
+		final List<Product> newProducts = mailRepository.searchNewProducts(limit.get());
+
+		return newProducts;
+	}
+
+	@Path("/new-products/{id}")
+	@GET
+	@Timed
+	public Product getNewProductById(@PathParam("id") LongParam productId) {
+		final Product newProduct = mailRepository.getNewProductById(productId.get());
+
+		if (newProduct == null) {
+			final String msg = String.format("New product with ID %d does not exist...", productId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
+		}
+
+		return newProduct;
+	}
+
+	@Path("/new-products")
+	@POST
+	@Timed
+	public BaseResponse addNewProduct(@NotNull @Valid Product product) {
+		mailRepository.storeNewProduct(product);
+		BaseResponse response = new BaseResponse("OK", 201, "New product successfully added to DB.");
+		log.info("New product successfully added to DB.");
+
+		return response;
+	}
 }

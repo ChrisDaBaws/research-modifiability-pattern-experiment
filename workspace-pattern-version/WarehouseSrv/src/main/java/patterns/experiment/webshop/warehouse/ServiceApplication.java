@@ -1,12 +1,12 @@
 package patterns.experiment.webshop.warehouse;
 
 import java.util.EnumSet;
+import java.util.concurrent.ExecutorService;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -15,6 +15,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import patterns.experiment.webshop.warehouse.db.WarehouseRepository;
 import patterns.experiment.webshop.warehouse.health.StandardHealthCheck;
+import patterns.experiment.webshop.warehouse.messaging.KafkaListener;
 import patterns.experiment.webshop.warehouse.resources.WarehouseResource;
 
 public class ServiceApplication extends Application<ServiceConfiguration> {
@@ -52,6 +53,11 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
 		cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
+		// Instantiate Kafka consumer and bind it to environment
+		final ExecutorService executorService = environment.lifecycle().executorService("kafka-threads").minThreads(2)
+				.maxThreads(10).build();
+		executorService.execute(new KafkaListener());
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(warehouseResource);

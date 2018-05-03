@@ -1,7 +1,6 @@
 package patterns.experiment.webshop.products.resources;
 
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
@@ -27,6 +26,7 @@ import io.dropwizard.jersey.params.LongParam;
 import patterns.experiment.webshop.products.api.BaseResponse;
 import patterns.experiment.webshop.products.api.Product;
 import patterns.experiment.webshop.products.db.ProductRepository;
+import patterns.experiment.webshop.products.messaging.KafkaNotifier;
 
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,10 +34,12 @@ public class ProductResource {
 	private final long defaultCategoryId;
 	private ProductRepository productRepository;
 	private Logger log;
+	private KafkaNotifier kafkaNotifier;
 
 	public ProductResource(long defaultCategoryId, ProductRepository repository) {
 		this.defaultCategoryId = defaultCategoryId;
 		this.productRepository = repository;
+		this.kafkaNotifier = new KafkaNotifier();
 		this.log = LoggerFactory.getLogger(ProductResource.class);
 		log.info("ProductResource instantiated...");
 	}
@@ -71,6 +73,9 @@ public class ProductResource {
 			product.setCategoryId(defaultCategoryId);
 		}
 		final Product createdProduct = productRepository.store(product);
+
+		// Notify consumers that new product has been create
+		kafkaNotifier.publishNewProductEvent(createdProduct);
 
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}

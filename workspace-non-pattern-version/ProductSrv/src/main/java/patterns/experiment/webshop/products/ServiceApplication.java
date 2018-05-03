@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
+import javax.ws.rs.client.Client;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.dropwizard.Application;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import patterns.experiment.webshop.products.db.ProductRepository;
@@ -38,7 +40,9 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 	@Override
 	public void run(final ServiceConfiguration configuration, final Environment environment) {
 
-		final ProductResource productResource = new ProductResource(configuration.getDefaultCategoryId(),
+		final Client restClient = new JerseyClientBuilder(environment)
+				.using(configuration.getJerseyClientConfiguration()).build(getName());
+		final ProductResource productResource = new ProductResource(restClient, configuration.getDefaultCategoryId(),
 				productRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck(configuration.getDefaultCategoryId());

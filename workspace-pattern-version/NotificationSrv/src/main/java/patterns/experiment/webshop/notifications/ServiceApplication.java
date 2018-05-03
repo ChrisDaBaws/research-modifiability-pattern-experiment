@@ -1,6 +1,7 @@
 package patterns.experiment.webshop.notifications;
 
 import java.util.EnumSet;
+import java.util.concurrent.ExecutorService;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -18,6 +19,7 @@ import io.dropwizard.setup.Environment;
 import patterns.experiment.webshop.notifications.db.MailRepository;
 import patterns.experiment.webshop.notifications.health.StandardHealthCheck;
 import patterns.experiment.webshop.notifications.resources.NotificationResource;
+import patterns.experiment.webshop.notifications.messaging.KafkaListener;
 
 public class ServiceApplication extends Application<ServiceConfiguration> {
 
@@ -56,6 +58,11 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
 		cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
+		// Instantiate Kafka consumer and bind it to environment
+		final ExecutorService executorService = environment.lifecycle().executorService("kafka-threads").minThreads(2)
+				.maxThreads(10).build();
+		executorService.execute(new KafkaListener());
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(orderResource);
