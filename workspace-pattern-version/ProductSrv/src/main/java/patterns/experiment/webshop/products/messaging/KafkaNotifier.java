@@ -12,7 +12,7 @@ import patterns.experiment.webshop.products.api.Product;
 
 public class KafkaNotifier {
 
-	private static final String KAFKA_TOPIC_NAME = "products";
+	private static final String KAFKA_TOPIC_NAME = "new-products";
 	private Properties kafkaProps;
 	private Logger log;
 

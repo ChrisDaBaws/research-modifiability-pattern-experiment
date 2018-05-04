@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import patterns.experiment.webshop.notifications.api.Product;
 
 public class KafkaListener implements Runnable {
-	private final String KAFKA_TOPIC_NAME = "products";
+	private final String KAFKA_TOPIC_NAME = "new-products";
 	private Properties kafkaProps;
 	private Logger log;
 
