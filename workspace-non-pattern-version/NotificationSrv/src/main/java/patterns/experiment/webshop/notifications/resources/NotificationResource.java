@@ -132,6 +132,7 @@ public class NotificationResource {
 	public BaseResponse sendProductMail(@NotNull @Valid NewProductMailRequest request) {
 		BaseResponse response;
 		final Product product = request.getProduct();
+		// type needs to be `NEW_PRODUCT_MAIL` for the EmailClient to send the mail
 		final String mailType = request.getType();
 
 		log.info("Trying to send new product mail to sales department for product with ID " + product.getId() + "...");
@@ -146,40 +147,40 @@ public class NotificationResource {
 
 		return response;
 	}
-	
+
 	// New products DB
 
-		@Path("/new-products")
-		@GET
-		@Timed
-		public List<Product> getNewProducts(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
-			final List<Product> newProducts = mailRepository.searchNewProducts(limit.get());
+	@Path("/new-products")
+	@GET
+	@Timed
+	public List<Product> getNewProducts(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
+		final List<Product> newProducts = mailRepository.searchNewProducts(limit.get());
 
-			return newProducts;
+		return newProducts;
+	}
+
+	@Path("/new-products/{id}")
+	@GET
+	@Timed
+	public Product getNewProductById(@PathParam("id") LongParam productId) {
+		final Product newProduct = mailRepository.getNewProductById(productId.get());
+
+		if (newProduct == null) {
+			final String msg = String.format("New product with ID %d does not exist...", productId.get());
+			throw new WebApplicationException(msg, Status.NOT_FOUND);
 		}
 
-		@Path("/new-products/{id}")
-		@GET
-		@Timed
-		public Product getNewProductById(@PathParam("id") LongParam productId) {
-			final Product newProduct = mailRepository.getNewProductById(productId.get());
+		return newProduct;
+	}
 
-			if (newProduct == null) {
-				final String msg = String.format("New product with ID %d does not exist...", productId.get());
-				throw new WebApplicationException(msg, Status.NOT_FOUND);
-			}
+	@Path("/new-products")
+	@POST
+	@Timed
+	public BaseResponse addNewProduct(@NotNull @Valid Product product) {
+		mailRepository.storeNewProduct(product);
+		BaseResponse response = new BaseResponse("OK", 201, "New product successfully added to DB.");
+		log.info("New product successfully added to DB.");
 
-			return newProduct;
-		}
-
-		@Path("/new-products")
-		@POST
-		@Timed
-		public BaseResponse addNewProduct(@NotNull @Valid Product product) {
-			mailRepository.storeNewProduct(product);
-			BaseResponse response = new BaseResponse("OK", 201, "New product successfully added to DB.");
-			log.info("New product successfully added to DB.");
-
-			return response;
-		}
+		return response;
+	}
 }

@@ -17,6 +17,7 @@ public class EmailClient {
 
 	public boolean sendNewProductMail(String type, Product product) {
 		// SEND MAGIC NEW PRODCUT MAIL
+		// type needs to be `NEW_PRODUCT_MAIL` for the EmailClient to send the mail
 		return type.equalsIgnoreCase("NEW_PRODUCT_MAIL");
 	}
 

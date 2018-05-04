@@ -58,6 +58,7 @@
             <div v-if="versionDetermined">
                 <router-link class="button button-outline" to="/exercise01">Exercise 01</router-link>
                 <router-link class="button button-outline" to="/exercise02">Exercise 02</router-link>
+                <router-link class="button button-outline" to="/exercise03">Exercise 03</router-link>
             </div>
         </div>
     </script>
@@ -80,7 +81,7 @@
             <div class="container">
                 <div class="row">
                     <div class="column">
-                        <test-results v-bind:test="orderTest"></test-results>
+                        <test-results v-bind:test="test"></test-results>
                     </div>
                 </div>
             </div>
@@ -102,7 +103,23 @@
             <div class="container">
                 <div class="row">
                     <div class="column">
-                        <test-results v-bind:test="decompositionTest"></test-results>
+                        <test-results v-bind:test="test"></test-results>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="exercise03">
+        <div>
+            <h1>Validation of Exercise 03</h1>
+            <hr>
+            <button v-on:click="startValidation">Start Validation</button>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="column">
+                        <test-results v-bind:test="test"></test-results>
                     </div>
                 </div>
             </div>

@@ -132,6 +132,7 @@ public class NotificationResource {
 	public BaseResponse sendProductMail(@NotNull @Valid NewProductMailRequest request) {
 		BaseResponse response;
 		final Product product = request.getProduct();
+		// type needs to be `NEW_PRODUCT_MAIL` for the EmailClient to send the mail
 		final String mailType = request.getType();
 
 		log.info("Trying to send new product mail to sales department for product with ID " + product.getId() + "...");

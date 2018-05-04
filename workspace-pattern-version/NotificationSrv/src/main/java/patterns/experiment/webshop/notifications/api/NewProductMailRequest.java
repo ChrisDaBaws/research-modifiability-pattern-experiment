@@ -19,6 +19,7 @@ public class NewProductMailRequest {
 
 	public NewProductMailRequest(long id, String type, Product product) {
 		this.id = id;
+		// type needs to be `NEW_PRODUCT_MAIL` for the EmailClient to send the mail
 		this.type = type;
 		this.product = product;
 	}
