@@ -18,7 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dropwizard.version>1.3.0</dropwizard.version>
-		<mainClass>patterns.experiment.webshop.notifications.ServiceApplication</mainClass>
+		<mainClass>experiment.webshop.notifications.ServiceApplication</mainClass>
 	</properties>
 
 	<dependencyManagement>
