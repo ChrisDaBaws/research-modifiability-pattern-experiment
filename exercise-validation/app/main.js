@@ -161,10 +161,11 @@ const exercise03 = Vue.component("exercise03", {
                             testSpecs[index].successful.achieved = false;
                         } else {
                             // http success
-                            const newProductId = result.data.message.substring(result.data.message.indexOf("ID ") + 3, result.data.message.indexOf(" succ"));
+                            const newProductId = parseInt(result.data.message.substring(result.data.message.indexOf("ID ") + 3, result.data.message.indexOf(" succ")));
+
                             Promise.all([
                                 axios.get(`${this.notificationSrvEndpoint}/new-products/${newProductId}`).catch(e => e),
-                                axios.get(`${this.notificationSrvEndpoint}/product-mails`).catch(e => e),
+                                axios.get(`${this.notificationSrvEndpoint}/product-mails?limit=400`).catch(e => e),
                                 axios.get(`${this.warehouseSrvEndpoint}/products/${newProductId}/availability?amount=8`).catch(e => e)
                             ]).then(results2 => {
                                 if (
@@ -190,15 +191,9 @@ const exercise03 = Vue.component("exercise03", {
         },
 
         findProductMailRequest(data, newProductId) {
-            let valid = false;
-
-            for (mail in data) {
-                if (mail.product.id === newProductId) {
-                    valid = true;
-                }
-            }
-
-            return valid;
+            return data.find(mail => {
+                return mail.product.id === newProductId;
+            }) !== undefined;
         },
 
         checkAvailabilityResponse(data) {
