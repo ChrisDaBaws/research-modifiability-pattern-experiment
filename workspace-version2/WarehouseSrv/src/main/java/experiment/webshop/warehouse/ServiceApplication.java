@@ -57,7 +57,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		// Instantiate Kafka consumer and bind it to environment
 		final ExecutorService executorService = environment.lifecycle().executorService("kafka-threads").minThreads(2)
 				.maxThreads(10).build();
-		executorService.execute(new KafkaListener());
+		executorService.execute(new KafkaListener(warehouseResource));
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(warehouseResource);

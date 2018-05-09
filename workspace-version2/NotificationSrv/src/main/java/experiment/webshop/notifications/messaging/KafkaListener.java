@@ -11,13 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import experiment.webshop.notifications.api.Product;
+import experiment.webshop.notifications.resources.NotificationResource;
 
 public class KafkaListener implements Runnable {
 	private final String KAFKA_TOPIC_NAME = "new-products";
 	private Properties kafkaProps;
 	private Logger log;
+	private NotificationResource notificationResource;
 
-	public KafkaListener() {
+	public KafkaListener(NotificationResource notificationResource) {
+		this.notificationResource = notificationResource;
+
+		// Set Kafka connection properties
 		kafkaProps = new Properties();
 		kafkaProps.put("bootstrap.servers", "localhost:9092");
 		kafkaProps.put("enable.auto.commit", "true");
@@ -40,8 +45,6 @@ public class KafkaListener implements Runnable {
 				// TODO: Add the new product to the internal DB
 
 				// TODO: Notify sales department mailing list of the new product
-				
-				// https://stackoverflow.com/questions/40430666/dropwizard-resource-classes-calling-another-resource-method-classes/40454790
 
 			}
 		}

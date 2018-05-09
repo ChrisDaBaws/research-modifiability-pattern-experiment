@@ -44,7 +44,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		final EmailClient mailClient = new EmailClient();
 		final Client restClient = new JerseyClientBuilder(environment)
 				.using(configuration.getJerseyClientConfiguration()).build(getName());
-		final NotificationResource orderResource = new NotificationResource(restClient, mailClient, mailRepository);
+		final NotificationResource notificationResource = new NotificationResource(restClient, mailClient, mailRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck();
 
@@ -62,10 +62,10 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		// Instantiate Kafka consumer and bind it to environment
 		final ExecutorService executorService = environment.lifecycle().executorService("kafka-threads").minThreads(2)
 				.maxThreads(10).build();
-		executorService.execute(new KafkaListener());
+		executorService.execute(new KafkaListener(notificationResource));
 
 		environment.healthChecks().register("template", healthCheck);
-		environment.jersey().register(orderResource);
+		environment.jersey().register(notificationResource);
 	}
 
 }

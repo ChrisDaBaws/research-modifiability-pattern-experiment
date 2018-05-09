@@ -6,12 +6,16 @@ The following services are involved and have to be started before the final exer
 
 - CustomerSrv (`http://localhost:8000`)
 - NotificationSrv (`http://localhost:8010`)
+- OrderProcessSrv (`http://localhost:8020`)
 - OrderSrv (`http://localhost:8030`)
+- ProductSrvFacade (`http://localhost:8040`)
 - ProductSrv (`http://localhost:8050`)
+- Apache Zookeeper (`localhost:2181`)
+- Apache Kafka (`localhost:9092`)
 
 ## Description
 
-The `OrderSrv` is responsible for orchestrating the process of creating a new order, which can be invoked via `POST /orders (experiment.webshop.orders.resources.OrderResource)`. The following JSON payload is an example for a new order request:
+The `OrderProcessSrv` is responsible for orchestrating the process of creating a new order, which can be invoked via `POST /order-process (experiment.webshop.orderprocess.resources.OrderProcessResource)`. The following JSON payload is an example for a new order request:
 
 ```javascript
 {
@@ -29,14 +33,14 @@ The `OrderSrv` is responsible for orchestrating the process of creating a new or
 }
 ```
 
-The current process looks as follows (see the `createOrder()` method in the `experiment.webshop.orders.resources.OrderResource` class):
+The current process looks as follows (see the `createOrderProcess()` method in the `experiment.webshop.orderprocess.resources.OrderProcessResource` class):
 
 1. Use the provided `customerId` to refresh and check the customer's credit rating (1-6) by invoking the `CustomerSrv` via `GET /customers/{id}/credit-rating-check (experiment.webshop.customers.resources.CustomerResource)`. Ratings of 4 or worse are rejected, ratings of 1-3 are accepted. An example response may look as follows:
 
 ```javascript
 {
     "customerId": 1,
-    "acceptable": false
+    "rating": 6
 }
 ```
 
@@ -45,20 +49,22 @@ The current process looks as follows (see the `createOrder()` method in the `exp
 ```javascript
 {
     "productId": 1,
-    "available": true,
+    "availableAmount": 6,
     "requestedAmount": 3
 }
 ```
 
-3. If all requested items are `available`, the order is created and stored via the OrderRepository (`experiment.webshop.orders.db.OrderRepository`).
+3. If all requested items are available in the necessary capacity, the order is created and stored by invoking the `OrderSrv` via `POST /orders` with the original order payload.
 
 After some research, the sales team has decided that this process should now be adjusted and extended.
 
 ## Tasks
 
-1. **Change the order of the first two process steps.** The product availability check should be the first step with the customer credit rating check being second. This `OrderSrv` change has to be performed in the `createOrder()` method of the `experiment.webshop.orders.resources.OrderResource` class.
-2. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4. This `CustomerSrv` change has to be performed in the `updateAndCheckCreditRating()` method of the `experiment.webshop.customers.resources.CustomerResource` class.
-3. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2. This `ProductSrv` change has to be performed in the `checkProductAvailability()` method of the `experiment.webshop.products.resources.ProductResource` class.
+All changes have to be performed in the `OrderProcessSrv`, more precisely within the `createOrderProcess()` method of the `experiment.webshop.orderprocess.resources.OrderProcessResource` class.
+
+1. **Change the order of the first two process steps.** The product availability check should be the first step with the customer credit rating check being second. 
+2. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4.
+3. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2.
 4. **Add a new final process step.** After successful ordering, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST /marketing-mails`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocations from the same method (e.g. the credit rating check). Instead of `get()`, invoke the `post()` method of a created `request` (see below). An example payload (`experiment.webshop.orders.api.MarketingMailRequest`) is also provided below (`order` will of course be the newly created order).
 
 ```java

@@ -6,11 +6,15 @@ The following services are involved and have to be started before the final exer
 
 - CustomerSrv (`http://localhost:8000`)
 - NotificationSrv (`http://localhost:8010`)
+- OrderProcessSrv (`http://localhost:8020`)
 - OrderSrv (`http://localhost:8030`)
+- ProductSrvFacade (`http://localhost:8040`)
 - ProductSrv (`http://localhost:8050`)
 - CategorySrv  (`http://localhost:8060`)
 - WarehouseSrv  (`http://localhost:8070`)
 - WebUI (`http://localhost:5000`)
+- Apache Zookeeper (`localhost:2181`)
+- Apache Kafka (`localhost:9092`)
 
 ## Description
 
@@ -35,9 +39,11 @@ PUT     /products/{id}/availability (experiment.webshop.products.resources.Produ
 
 The lead developer has decided to split up the `ProductSrv` to increase maintainability and scaling efficiency. Two new services will be created: A `CategorySrv` handling product categories and a `WarehouseSrv` responsible for product availability. The CRUD operations related to products will remain in the `ProductSrv`. Runnable skeleton projects for the new services have already been created, they just provide no resources yet.
 
+Since this change has been expected some months ago, precautions have been taken. First, the different capabilities of the `ProductSrv` have already been decomposed in separate classes (one `Resource` and one `Repository` class per capability). And second, the `ProductSrvFacade` shields the `ProductSrv` from all consumers so that it will be the only component that has to be adjusted with the new URLs.
+
 ## Tasks
 
-1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.CategoryResource`) and a repository class (`experiment.webshop.categories.db.CategoryRepository`) that can be extended. Make sure to also copy all necessary model classes to the `experiment.webshop.categories.api` package that is currently empty. In the end, the following resources should be provided by the new `CategorySrv` instead:
+1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.CategoryResource`) and a repository class (`experiment.webshop.categories.db.CategoryRepository`) that can be replaced (beware of the new package name though). Make sure to also copy all necessary model classes to the `experiment.webshop.categories.api` package that is currently empty. In the end, the following resources should be provided by the new `CategorySrv` instead:
 
 ```bash
 GET     /categories (experiment.webshop.categories.resources.CategoryResource)
@@ -47,14 +53,14 @@ GET     /categories/{id} (experiment.webshop.categories.resources.CategoryResour
 PUT     /categories/{id} (experiment.webshop.categories.resources.CategoryResource)
 ```
 
-2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be extended. Make sure to also copy all necessary model classes to the `experiment.webshop.warehouse.api` package that is currently empty. In the end, the following resources should be provided by the new `WarehouseSrv` instead:
+2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be replaced (beware of the new package name though). Make sure to also copy all necessary model classes to the `experiment.webshop.warehouse.api` package that is currently empty. In the end, the following resources should be provided by the new `WarehouseSrv` instead:
 
 ```bash
 GET     /products/{id}/availability (experiment.webshop.warehouse.resources.WarehouseResource)
 PUT     /products/{id}/availability (experiment.webshop.warehouse.resources.WarehouseResource)
 ```
 
-3. **Fix the service consumers of the moved functionality.** The old `ProductSrv` had two consumers that used its resources, namely the `OrderSrv` (that uses `GET /products/{id}/availability`) and the `WebUI` (that uses `GET /categories`, `GET /products`, and `GET /products/{id}/availability`). These two consumers have to be adjusted with the new URLs to reflect the changes of the service decomposition. The `OrderSrv` change has to be performed in the `createOrder()` method of the `experiment.webshop.orders.resources.OrderResource` class. The `WebUI` changes have to be performed in `app/main.js`: The retrieving of all categories has to be fixed in the `created()` method while checking product availability has to be fixed in `checkProductAvailability()`.
+3. **Fix the `ProductSrvFacade`.** Since we moved functionality to new endpoints, we need to adapt the invocation URLs for service consumers. This can be done centrally at the `ProductSrvFacade` in the `experiment.webshop.products.resources.ProductFacadeResource`. A `PRODUCT_SRV_ENDPOINT` already exists. The usage of this endpoint stays the same for product related operations, but for category and warehouse operations, new endpoint variables have to be configured.
 
 ## Validation
 

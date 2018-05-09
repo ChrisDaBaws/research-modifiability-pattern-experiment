@@ -11,13 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import experiment.webshop.warehouse.api.Product;
+import experiment.webshop.warehouse.resources.WarehouseResource;
 
 public class KafkaListener implements Runnable {
 	private final String KAFKA_TOPIC_NAME = "new-products";
 	private Properties kafkaProps;
 	private Logger log;
+	private WarehouseResource warehouseResource;
 
-	public KafkaListener() {
+	public KafkaListener(WarehouseResource warehouseResource) {
+		this.warehouseResource = warehouseResource;
+
+		// Set Kafka connection properties
 		kafkaProps = new Properties();
 		kafkaProps.put("bootstrap.servers", "localhost:9092");
 		kafkaProps.put("enable.auto.commit", "true");
@@ -36,10 +41,9 @@ public class KafkaListener implements Runnable {
 			ConsumerRecords<String, Product> messages = consumer.poll(1000);
 			for (ConsumerRecord<String, Product> message : messages) {
 				Product createdProduct = message.value();
-				
-				// TODO: Procurement process --> Increase the available amount of the new product to 10 
 
-				// https://stackoverflow.com/questions/40430666/dropwizard-resource-classes-calling-another-resource-method-classes/40454790
+				// TODO: Procurement process --> Increase the available amount of the new product to 10
+
 			}
 		}
 	}
