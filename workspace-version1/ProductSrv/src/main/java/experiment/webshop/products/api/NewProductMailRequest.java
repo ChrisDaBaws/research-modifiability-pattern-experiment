@@ -1,4 +1,4 @@
-package experiment.webshop.notifications.api;
+package experiment.webshop.products.api;
 
 import javax.validation.constraints.NotNull;
 

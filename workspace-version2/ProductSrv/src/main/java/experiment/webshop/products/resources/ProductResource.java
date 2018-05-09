@@ -75,7 +75,7 @@ public class ProductResource {
 		}
 		final Product createdProduct = productRepository.store(product);
 
-		// Notify consumers that new product has been create
+		// Publish event that new product has been created
 		kafkaNotifier.publishNewProductEvent(createdProduct);
 
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");

@@ -1,4 +1,4 @@
-package experiment.webshop.orders.api;
+package experiment.webshop.orderprocess.api;
 
 import javax.validation.constraints.NotNull;
 

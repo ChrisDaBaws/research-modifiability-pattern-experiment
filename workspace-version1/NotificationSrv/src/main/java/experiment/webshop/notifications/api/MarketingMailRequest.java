@@ -24,6 +24,12 @@ public class MarketingMailRequest {
 		this.order = order;
 	}
 
+	public MarketingMailRequest(String type, Order order) {
+		// type needs to be `SIMILAR_PRODUCTS_MAIL` for the EmailClient to send the mail
+		this.type = type;
+		this.order = order;
+	}
+
 	@JsonProperty
 	public long getId() {
 		return id;

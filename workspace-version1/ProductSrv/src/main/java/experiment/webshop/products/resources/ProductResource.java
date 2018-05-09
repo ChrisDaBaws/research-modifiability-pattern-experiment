@@ -82,6 +82,8 @@ public class ProductResource {
 		}
 		final Product createdProduct = productRepository.storeProduct(product);
 
+		// TODO execute follow up actions after successful product creation 
+		
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}
 

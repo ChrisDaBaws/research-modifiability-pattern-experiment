@@ -24,6 +24,12 @@ public class NewProductMailRequest {
 		this.product = product;
 	}
 
+	public NewProductMailRequest(String type, Product product) {
+		// type needs to be `NEW_PRODUCT_MAIL` for the EmailClient to send the mail
+		this.type = type;
+		this.product = product;
+	}
+
 	@JsonProperty
 	public long getId() {
 		return id;
