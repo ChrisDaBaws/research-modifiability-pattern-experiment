@@ -1,2 +1,2 @@
-cd ../web-ui
+cd ../WebUI
 npm install && npm start
