@@ -40,6 +40,7 @@ The `resources` package holds a resource class that specifies all provided REST 
 
 Before you start the first exercise of the experiment, take some time (~10-15 minutes) to get familiar with the system, its services, and the build scripts. Here are some suggestions:
 
+- Have a look at the files in the `_docs` folder to get familiar with the overall architecture and functionality of the system.
 - Open your Java IDE and ensure that all Maven projects have been successfully imported.
 - Have a look at some services in your Java IDE. Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
 - Start Apache Kafka, since it will be required by some of the services. First, execute `_scripts/bat_start-zookeeper.bat` and wait a few seconds until you see a successful port binding message to `0.0.0.0/0.0.0.0:2181`. Then execute `_scripts/bat_start-kafka.bat` which will bring up the Kafka broker that will connect to Zookeeper. No further configuration should be necessary. Kafka/Zookeeper should be running throughout the whole experiment.

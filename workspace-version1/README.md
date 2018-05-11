@@ -37,6 +37,7 @@ The `resources` package holds a resource class that specifies all provided REST 
 
 Before you start the first exercise of the experiment, take some time (~10-15 minutes) to get familiar with the system, its services, and the build scripts. Here are some suggestions:
 
+- Have a look at the files in the `_docs` folder to get familiar with the overall architecture and functionality of the system.
 - Open your Java IDE and ensure that all Maven projects have been successfully imported.
 - Open your web IDE and have a look at the `WebUI`.
 - Have a look at some services in your Java IDE. Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
