@@ -41,7 +41,7 @@ const exercise01 = Vue.component("exercise01", {
                 title: "End-2-End Order Check Results",
                 validationFinished: false
             },
-            notificationSrvEndpoint: "http://localhost:8010/marketing-mails",
+            notificationSrvEndpoint: "http://localhost:8010/marketing-mails?limit=4000",
             orderSrvEndpoint: this.$patternVersion ? "http://localhost:8020/order-process" : "http://localhost:8030/orders"
         }
     },
@@ -165,7 +165,7 @@ const exercise03 = Vue.component("exercise03", {
 
                             Promise.all([
                                 axios.get(`${this.notificationSrvEndpoint}/new-products/${newProductId}`).catch(e => e),
-                                axios.get(`${this.notificationSrvEndpoint}/product-mails?limit=400`).catch(e => e),
+                                axios.get(`${this.notificationSrvEndpoint}/product-mails?limit=4000`).catch(e => e),
                                 axios.get(`${this.warehouseSrvEndpoint}/products/${newProductId}/availability?amount=8`).catch(e => e)
                             ]).then(results2 => {
                                 if (

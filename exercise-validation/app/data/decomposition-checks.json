@@ -2,7 +2,7 @@
         "id": "ProductSrv - GET products",
         "config": {
             "method": "get",
-            "url": "http://localhost:8050/products"
+            "url": "http://localhost:8050/products?limit=4000"
         },
         "successful": {
             "expected": true,
@@ -67,7 +67,7 @@
         "id": "ProductSrv - GET categories",
         "config": {
             "method": "get",
-            "url": "http://localhost:8050/categories"
+            "url": "http://localhost:8050/categories?limit=4000"
         },
         "successful": {
             "expected": false,
@@ -132,7 +132,7 @@
         "id": "CategorySrv - GET categories",
         "config": {
             "method": "get",
-            "url": "http://localhost:8060/categories"
+            "url": "http://localhost:8060/categories?limit=4000"
         },
         "successful": {
             "expected": true,
