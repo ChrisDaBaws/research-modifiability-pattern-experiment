@@ -10,9 +10,9 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import experiment.webshop.categories.db.CategoryRepository;
+import experiment.webshop.categories.db.ProductCategoryRepository;
 import experiment.webshop.categories.health.StandardHealthCheck;
-import experiment.webshop.categories.resources.CategoryResource;
+import experiment.webshop.categories.resources.ProductCategoryResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -23,7 +23,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		new ServiceApplication().run(args);
 	}
 
-	private CategoryRepository categoryRepository;
+	private ProductCategoryRepository categoryRepository;
 
 	@Override
 	public String getName() {
@@ -32,13 +32,13 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 	@Override
 	public void initialize(final Bootstrap<ServiceConfiguration> bootstrap) {
-		this.categoryRepository = new CategoryRepository();
+		this.categoryRepository = new ProductCategoryRepository();
 	}
 
 	@Override
 	public void run(final ServiceConfiguration configuration, final Environment environment) {
 
-		final CategoryResource categoryResource = new CategoryResource(categoryRepository);
+		final ProductCategoryResource categoryResource = new ProductCategoryResource(categoryRepository);
 
 		final StandardHealthCheck healthCheck = new StandardHealthCheck();
 
