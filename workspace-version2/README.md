@@ -1,12 +1,13 @@
-# Service-Based WebShop Version 1
+# Service-Based WebShop Version 2
 
-This is the workspace for version 1 of the web shop. It consists of several RESTful Java services that communicate via HTTP requests.
+This is the workspace for version 2 of the web shop. It consists of several RESTful Java services that primarily communicate via HTTP requests. Some services also use message-based communications to publish and suscribe to events (Apache Kafka).
 
 ## Prerequisites
 
 - Make sure a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) >=1.8 is installed and that the `JAVA_HOME` variable is set accordingly.
 - Make sure [Maven](https://maven.apache.org/download.cgi) >=3.5.0 is installed and `mvn` is available from the command line.
 - Make sure [Node.js](https://nodejs.org/en/download) >=8.0.0 is installed and that `npm` is available from the command line.
+- Make sure [Apache Kafka](https://kafka.apache.org/downloads) >=1.1.0 is installed. The build scripts for Kafka and Zookeeper currently expect all related files to reside in `C:\dev\apache-kafka`. If you installed Kafka somewhere else, be sure to adjust `_scripts\bat_start-kafka.bat` and `_scripts\bat_start-zookeeper.bat` with your custom path.
 
 ## Directory and Folder Structure
 
@@ -30,6 +31,8 @@ The `api` package holds all model classes of the service, i.e. domain entities a
 The `db` package holds a repository class that provides operations to retrieve, store, update, or delete the domain entities the service is responsible for. It acts as the sole access point to a persistent database, although none is present in this prototype implementation.
 - `experiment.webshop.{serviceDomain}.health`  
 The `health` package holds a health check class for operational/administrative purposes. It will not be modified during the exercises.
+- `experiment.webshop.{serviceDomain}.messaging`  
+Only some services have a `messaging` package that holds classes related to communication via Kafka topics. It may contain classes for object (de-)serialization and notifier/listener classes.
 - `experiment.webshop.{serviceDomain}.resources`  
 The `resources` package holds a resource class that specifies all provided REST operations of the service, i.e. its interface. It uses annotations to indicate the path, e.g. `@Path("/products")`, and the HTTP method, e.g. `@GET`. Most changes will have to be performed in these resource classes.
 
@@ -38,9 +41,9 @@ The `resources` package holds a resource class that specifies all provided REST 
 Before you start the first exercise of the experiment, take some time (~10-15 minutes) to get familiar with the system, its services, and the build scripts. Here are some suggestions:
 
 - Open your Java IDE and ensure that all Maven projects have been successfully imported.
-- Open your web IDE and have a look at the `WebUI`.
 - Have a look at some services in your Java IDE. Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
-- As a test, start all of the components by executing all `.bat` files in `_scripts`. Then, in your browser, navigate to the WebUI at `http://localhost:5000` and check if everything is working as expected. Play around with some of the buttons. Navigate to some of the `GET` resources of some services in your browser, e.g. `http://localhost:8050/products` or `http://localhost:8000/customers`, and have a look at the JSON responses.
+- Start Apache Kafka, since it will be required by some of the services. First, execute `_scripts/bat_start-zookeeper.bat` and wait a few seconds until you see a successful port binding message to `0.0.0.0/0.0.0.0:2181`. Then execute `_scripts/bat_start-kafka.bat` which will bring up the Kafka broker that will connect to Zookeeper. No further configuration should be necessary. Kafka/Zookeeper should be running throughout the whole experiment.
+- Now, start the remaining components by executing all other `.bat` files (excluding the Zookeeper and Kafka ones) in `_scripts`. Then, in your browser, navigate to the WebUI at `http://localhost:5000` and check if everything is working as expected. Play around with some of the buttons. Navigate to some of the `GET` resources of some services in your browser, e.g. `http://localhost:8050/products` or `http://localhost:8000/customers`, and have a look at the JSON responses.
 - You can already start the exercise validation UI via `../exercise-validation/build-and-run-validation-ui.bat`. It will be available via your browser at `http://localhost:5001`. Just be sure to refresh the start page before you want to begin a new validation, because it needs to verify which version of the system you are running by analyzing the active services.
 - Whenever you performed changes in a service and want to test them, be sure to terminate the currently running service instance command line window (Ctrl + c) first. Then use the same script to build and run the service again with your newly implemented changes.
 
