@@ -25,4 +25,12 @@ The `db` package holds a repository class that provides operations to retrieve, 
 - `experiment.webshop.{serviceDomain}.health`  
 The `health` package holds a health check class for operational/administrative purposes. It will not be modified during the exercises.
 - `experiment.webshop.{serviceDomain}.resources`  
-The `resources` package holds a resource class that specifies all provided REST operations of the service, i.e. its interface. It uses annotations to indicate the path like `@Path("/products")` and the HTTP method, e.g. `@GET`. Most changes will have to be performed in these resource classes.
+The `resources` package holds a resource class that specifies all provided REST operations of the service, i.e. its interface. It uses annotations to indicate the path, e.g. `@Path("/products")`, and the HTTP method, e.g. `@GET`. Most changes will have to be performed in these resource classes.
+
+## Familiarization Period
+
+Before you start the first exercise of the experiment, take some time to get familiar with the system, its services, and the build scripts.
+
+- Open your Java IDE and ensure that all Maven projects have been successfully imported.
+- Have a look at some services in your Java IDE. Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
+- As a test, start all of the components by executing all `.bat` files in `_scripts`. Then, in your browser, navigate to the WebUI at `http://localhost:5000` and check if everything is working as expected. Play around with some of the buttons. Navigate to some of the `GET` resources of some services in your browser, e.g. `http://localhost:8050/products`, and have a look at the JSON responses.
