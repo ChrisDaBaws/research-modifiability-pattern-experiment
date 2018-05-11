@@ -62,10 +62,9 @@ After some research, the sales team has decided that this process should now be 
 
 All changes have to be performed in the `OrderProcessSrv`, more precisely within the `createOrderProcess()` method of the `experiment.webshop.orderprocess.resources.OrderProcessResource` class.
 
-1. **Change the order of the first two process steps.** The product availability check should be the first step with the customer credit rating check being second. 
-2. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4.
-3. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2.
-4. **Add a new final process step.** After successful ordering, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST /marketing-mails`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocations from the same method (e.g. the credit rating check). Instead of `get()`, invoke the `post()` method of a created `request` (see below). An example payload (`experiment.webshop.orders.api.MarketingMailRequest`) is also provided below (`order` will of course be the newly created order).
+1. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4.
+2. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2.
+3. **Add a new final process step.** After successful ordering, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST /marketing-mails`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocations from the same method (e.g. the credit rating check). Instead of `get()`, invoke the `post()` method of a created `request` (see below). An example payload (`experiment.webshop.orders.api.MarketingMailRequest`) is also provided below (`order` will of course be the newly created order).
 
 ```java
 POST request example:
@@ -100,4 +99,4 @@ Payload example:
 
 ## Validation
 
-When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.bat`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 01` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin for the manual validation part and to write down your time.
+When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.bat`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 01` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin to write down your time.
