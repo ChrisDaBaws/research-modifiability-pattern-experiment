@@ -27,10 +27,6 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		new ServiceApplication().run(args);
 	}
 
-	private ProductRepository productRepository;
-	private ProductCategoryRepository categoryRepository;
-	private WarehouseRepository warehouseRepository;
-
 	@Override
 	public String getName() {
 		return "ProductSrv";
@@ -38,21 +34,11 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 	@Override
 	public void initialize(final Bootstrap<ServiceConfiguration> bootstrap) {
-		this.productRepository = new ProductRepository();
-		this.categoryRepository = new ProductCategoryRepository();
-		this.warehouseRepository = new WarehouseRepository();
 	}
 
 	@Override
 	public void run(final ServiceConfiguration configuration, final Environment environment) {
-
-		final ProductResource productResource = new ProductResource(configuration.getDefaultCategoryId(),
-				productRepository);
-
-		final ProductCategoryResource categoryResource = new ProductCategoryResource(categoryRepository);
-
-		final WarehouseResource warehouseResource = new WarehouseResource(warehouseRepository);
-
+		
 		final StandardHealthCheck healthCheck = new StandardHealthCheck(configuration.getDefaultCategoryId());
 
 		// JSON pretty print
@@ -67,8 +53,21 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
 		environment.healthChecks().register("template", healthCheck);
+		
+		// Product resource
+		final ProductRepository productRepository = new ProductRepository();
+		final ProductResource productResource = new ProductResource(configuration.getDefaultCategoryId(),
+				productRepository);
 		environment.jersey().register(productResource);
+		
+		// Category resource
+		final ProductCategoryRepository categoryRepository = new ProductCategoryRepository();
+		final ProductCategoryResource categoryResource = new ProductCategoryResource(categoryRepository);
 		environment.jersey().register(categoryResource);
+		
+		// Warehouse resource
+		final WarehouseRepository warehouseRepository = new WarehouseRepository();
+		final WarehouseResource warehouseResource = new WarehouseResource(warehouseRepository);
 		environment.jersey().register(warehouseResource);
 	}
 

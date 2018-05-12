@@ -37,7 +37,7 @@ The lead developer has decided to split up the `ProductSrv` to increase maintain
 
 ## Tasks
 
-1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.CategoryResource`) and a repository class (`experiment.webshop.categories.db.CategoryRepository`) that can be extended. Make sure to also copy all necessary model classes to the `experiment.webshop.categories.api` package that is currently empty. In the end, the following resources should be provided by the new `CategorySrv` instead:
+1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.CategoryResource`) and a repository class (`experiment.webshop.categories.db.CategoryRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.categories.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `CategorySrv` instead:
 
 ```bash
 GET     /categories (experiment.webshop.categories.resources.CategoryResource)
@@ -47,7 +47,7 @@ GET     /categories/{id} (experiment.webshop.categories.resources.CategoryResour
 PUT     /categories/{id} (experiment.webshop.categories.resources.CategoryResource)
 ```
 
-2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be extended. Make sure to also copy all necessary model classes to the `experiment.webshop.warehouse.api` package that is currently empty. In the end, the following resources should be provided by the new `WarehouseSrv` instead:
+2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.warehouse.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `WarehouseSrv` instead:
 
 ```bash
 GET     /products/{id}/availability (experiment.webshop.warehouse.resources.WarehouseResource)
