@@ -115,9 +115,7 @@ public class ProductRepository {
 	// Product category methods
 
 	public List<ProductCategory> searchCategories(int limit) {
-		if (limit > 0) {
-			return categories.subList(0, Math.min(categories.size(), limit));
-		}
+		
 		return categories;
 	}
 

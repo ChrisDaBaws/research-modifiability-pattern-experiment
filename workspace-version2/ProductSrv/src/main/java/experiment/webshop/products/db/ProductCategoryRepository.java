@@ -24,9 +24,7 @@ public class ProductCategoryRepository {
 	}
 
 	public List<ProductCategory> search(int limit) {
-		if (limit > 0) {
-			return categories.subList(0, Math.min(categories.size(), limit));
-		}
+
 		return categories;
 	}
 
