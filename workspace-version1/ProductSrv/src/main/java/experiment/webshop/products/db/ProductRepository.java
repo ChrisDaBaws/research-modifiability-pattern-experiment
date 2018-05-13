@@ -59,9 +59,6 @@ public class ProductRepository {
 	// Product methods
 
 	public List<Product> searchProducts(int limit) {
-		if (limit > 0) {
-			return products.subList(0, Math.min(products.size(), limit));
-		}
 		return products;
 	}
 

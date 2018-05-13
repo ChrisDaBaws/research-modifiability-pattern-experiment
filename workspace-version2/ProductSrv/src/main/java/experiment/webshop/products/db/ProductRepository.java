@@ -23,9 +23,6 @@ public class ProductRepository {
 	}
 
 	public List<Product> search(int limit) {
-		if (limit > 0) {
-			return products.subList(0, Math.min(products.size(), limit));
-		}
 		return products;
 	}
 
