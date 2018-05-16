@@ -1,2 +1,6 @@
-cd C:/dev/apache-kafka
-bin/windows/kafka-server-start.bat config/server.properties
+gnome-terminal -e 'bash -c "
+
+cd /opt/kafka
+bin/kafka-server-start.sh config/server.properties
+
+exec bash"'

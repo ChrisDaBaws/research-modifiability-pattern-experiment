@@ -1,2 +1,6 @@
+gnome-terminal -e 'bash -c "
+
 cd C:/dev/apache-kafka
-bin/windows/zookeeper-server-start.bat config/zookeeper.properties
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+exec bash"'
