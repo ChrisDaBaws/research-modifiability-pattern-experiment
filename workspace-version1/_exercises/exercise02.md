@@ -37,14 +37,14 @@ The lead developer has decided to split up the `ProductSrv` to increase maintain
 
 ## Tasks
 
-1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.CategoryResource`) and a repository class (`experiment.webshop.categories.db.CategoryRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.categories.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `CategorySrv` instead:
+1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.ProductCategoryResource`) and a repository class (`experiment.webshop.categories.db.ProductCategoryRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.categories.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `CategorySrv` instead:
 
 ```bash
-GET     /categories (experiment.webshop.categories.resources.CategoryResource)
-POST    /categories (experiment.webshop.categories.resources.CategoryResource)
-DELETE  /categories/{id} (experiment.webshop.categories.resources.CategoryResource)
-GET     /categories/{id} (experiment.webshop.categories.resources.CategoryResource)
-PUT     /categories/{id} (experiment.webshop.categories.resources.CategoryResource)
+GET     /categories (experiment.webshop.categories.resources.ProductCategoryResource)
+POST    /categories (experiment.webshop.categories.resources.ProductCategoryResource)
+DELETE  /categories/{id} (experiment.webshop.categories.resources.ProductCategoryResource)
+GET     /categories/{id} (experiment.webshop.categories.resources.ProductCategoryResource)
+PUT     /categories/{id} (experiment.webshop.categories.resources.ProductCategoryResource)
 ```
 
 2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.warehouse.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `WarehouseSrv` instead:
