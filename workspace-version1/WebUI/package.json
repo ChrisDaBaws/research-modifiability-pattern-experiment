@@ -15,6 +15,6 @@
     "vue": "^2.5.16"
   },
   "devDependencies": {
-    "serve": "^6.5.4"
+    "serve": "^6.5.7"
   }
 }

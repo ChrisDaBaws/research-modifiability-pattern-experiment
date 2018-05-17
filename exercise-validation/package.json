@@ -16,6 +16,6 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "serve": "^6.5.5"
+    "serve": "^6.5.7"
   }
 }
