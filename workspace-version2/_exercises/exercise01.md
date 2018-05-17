@@ -64,17 +64,17 @@ All changes have to be performed in the `OrderProcessSrv`, more precisely within
 
 1. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4.
 2. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2.
-3. **Add a new final process step.** After successful ordering, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST /marketing-mails`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocations from the same method (e.g. the credit rating check). Instead of `get()`, invoke the `post()` method of a created `request` (see below). An example payload (`experiment.webshop.orders.api.MarketingMailRequest`) is also provided below (`order` will of course be the newly created order).
+3. **Add a new final process step.** After successful ordering, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST http://localhost:8010/marketing-mails`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocations from the same method (e.g. the credit rating check). Instead of `get()`, invoke the `post()` method of a created `request` (see below). An example payload (`experiment.webshop.orders.api.MarketingMailRequest`) is also provided below (`order` will of course be the newly created order).
 
 ```java
 POST request example:
 
-Invocation.Builder request = restClient.target(url).request();
-BaseResponse response = request.post(Entity.json(payload), BaseResponse.class);
+Invocation.Builder request = restClient.target(notificationSrvUrl).request();
+request.post(Entity.json(marketingMailRequest), BaseResponse.class);
 ```
 
 ```javascript
-Payload example:
+MarketingMailRequest example:
 
 {
     "type": "SIMILAR_PRODUCTS_MAIL",
