@@ -40,6 +40,8 @@ public class OrderResource {
 	private OrderRepository orderRepository;
 	private Client restClient;
 	private Logger log;
+	private final String CREDIT_RATING_CHECK_ENDPOINT = "http://localhost:8000";
+	private final String PRODUCT_AVAILABILITY_CHECK_ENDPOINT = "http://localhost:8050";
 
 	public OrderResource(OrderRepository repository, Client restClient) {
 		this.orderRepository = repository;
@@ -75,7 +77,7 @@ public class OrderResource {
 	public BaseResponse createOrder(@NotNull @Valid Order order) {
 		BaseResponse response;
 		final long customerId = order.getCustomerId();
-		final String creditRatingUrl = "http://localhost:8000/customers/" + customerId + "/credit-rating-check";
+		final String creditRatingUrl = CREDIT_RATING_CHECK_ENDPOINT + "/customers/" + customerId + "/credit-rating-check";
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer
@@ -94,7 +96,7 @@ public class OrderResource {
 			Invocation.Builder productAvailabilityRequest;
 			ProductAvailabilityCheckResponse productAvailabilityResponse;
 			for (OrderItem item : items) {
-				productAvailabilityUrl = "http://localhost:8050/products/" + item.getProductId()
+				productAvailabilityUrl = PRODUCT_AVAILABILITY_CHECK_ENDPOINT + "/products/" + item.getProductId()
 						+ "/availability?amount=" + item.getAmount();
 				productAvailabilityRequest = restClient.target(productAvailabilityUrl).request();
 				productAvailabilityResponse = productAvailabilityRequest.get(ProductAvailabilityCheckResponse.class);

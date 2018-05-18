@@ -8,12 +8,12 @@ The following services are involved and have to be started before the final exer
 - OrderProcessSrv (`http://localhost:8020`)
 - ProductSrv (`http://localhost:8050`)
 - WarehouseSrv  (`http://localhost:8070`)
-- Apache Zookeeper (`localhost:2181`)
-- Apache Kafka (`localhost:9092`)
+- Apache Zookeeper (`localhost:2181`, starts automatically in the provided Ubuntu VM)
+- Apache Kafka (`localhost:9092`, starts automatically in the provided Ubuntu VM)
 
 ## Description
 
-The product management team has decided to establish a new follow-up process when a new product has been added to the DB of the `ProductSrv`. To make their job easier and reduce manual efforts, several automatic actions have to be performed when a new product has been successfully created via `POST /products (experiment.webshop.products.resources.ProductResource)`.
+The product management team has decided to establish a new follow-up process when a new product has been added to the DB of the `ProductSrv`. To make their job easier and reduce manual efforts, several automatic actions have to be performed when a new product has been successfully created via `POST http://localhost:8050/products (experiment.webshop.products.resources.ProductResource)`.
 
 To handle this kind of event-based messaging, the lead developer decided to use the message-oriented middleware Apache Kafka. Kafka provides so called `topics` that message producers can publish to. Message consumers can subscribe to `topics` and will receive all published messages. This decouples producers and consumers and provides reliable asynchronous communication. The basic infrastructure for this is already in place. The `ProductSrv` already publishes a `new product event` (which is basically an instance of `experiment.webshop.products.api.Product`) to the Kafka topic `new-products`. The logic for this is located in `experiment.webshop.products.messaging.KafkaNotifier` and does not have to be changed. Similarly, the `NotificationSrv` and the `WarehouseSrv` already subscribe to these events (see the classes `experiment.webshop.notifications.messaging.KafkaListener` and `experiment.webshop.warehouse.messaging.KafkaListener`), but currently do nothing when such an event comes in.
 

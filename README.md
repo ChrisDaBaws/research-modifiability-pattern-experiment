@@ -4,7 +4,7 @@ To provide empirical support for the modifiability of service-based sytems this 
 
 Several exercises have to be performed on the systems within a certain timeframe. Both effectiveness and efficiency should be measured for each version.
 
-Required:
+Required (if you use the provided Ubuntu VM, everything is already installed and ready for use):
 
 - [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) >=1.8
 - [Maven](https://maven.apache.org/download.cgi) >=3.5.0

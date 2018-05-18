@@ -5,6 +5,8 @@ const app = new Vue({
         notificationSrvEndpoint: "http://localhost:8010",
         orderSrvEndpoint: "http://localhost:8030",
         productSrvEndpoint: "http://localhost:8050",
+        categorySrvEndpoint: "http://localhost:8060",
+        warehouseSrvEndpoint: "http://localhost:8070",
         products: [],
         categories: [],
         customers: [],

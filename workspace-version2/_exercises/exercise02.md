@@ -13,8 +13,8 @@ The following services are involved and have to be started before the final exer
 - CategorySrv  (`http://localhost:8060`)
 - WarehouseSrv  (`http://localhost:8070`)
 - WebUI (`http://localhost:5000`)
-- Apache Zookeeper (`localhost:2181`)
-- Apache Kafka (`localhost:9092`)
+- Apache Zookeeper (`localhost:2181`, starts automatically in the provided Ubuntu VM)
+- Apache Kafka (`localhost:9092`, starts automatically in the provided Ubuntu VM)
 
 ## Description
 
@@ -60,7 +60,7 @@ GET     /products/{id}/availability (experiment.webshop.warehouse.resources.Ware
 PUT     /products/{id}/availability (experiment.webshop.warehouse.resources.WarehouseResource)
 ```
 
-3. **Fix the `ProductSrvFacade`.** Since we moved functionality to new endpoints, we need to adapt the invocation URLs for service consumers. This can be done centrally at the `ProductSrvFacade` in the `experiment.webshop.products.resources.ProductFacadeResource`. A `PRODUCT_SRV_ENDPOINT` already exists. The usage of this endpoint stays the same for product related operations, but for category and warehouse operations, new endpoint variables have to be configured.
+3. **Fix the `ProductSrvFacade`.** Since we moved functionality to new endpoints, we need to adapt the invocation URLs for service consumers. This can be done centrally at the `ProductSrvFacade` in the `experiment.webshop.products.resources.ProductFacadeResource`. In addition to a `PRODUCT_SRV_ENDPOINT` variable, endpoint variables for the new services already exist. For category and warehouse operations, these new endpoint variables have to be used when building the HTTP requests.
 
 ## Validation
 

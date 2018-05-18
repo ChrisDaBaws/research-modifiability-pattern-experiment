@@ -11,7 +11,7 @@ The following services are involved and have to be started before the final exer
 
 ## Description
 
-The `OrderSrv` is responsible for orchestrating the process of creating a new order, which can be invoked via `POST /orders (experiment.webshop.orders.resources.OrderResource)`. The following JSON payload is an example for a new order request:
+The `OrderSrv` is responsible for orchestrating the process of creating a new order, which can be invoked via `POST http://localhost:8030/orders (experiment.webshop.orders.resources.OrderResource)`. The following JSON payload is an example for a new order request:
 
 ```javascript
 {
@@ -31,7 +31,7 @@ The `OrderSrv` is responsible for orchestrating the process of creating a new or
 
 The current process looks as follows (see the `createOrder()` method in the `experiment.webshop.orders.resources.OrderResource` class):
 
-1. Use the provided `customerId` to refresh and check the customer's credit rating (1-6) by invoking the `CustomerSrv` via `GET /customers/{id}/credit-rating-check (experiment.webshop.customers.resources.CustomerResource)`. Ratings of 4 or worse are rejected, ratings of 1-3 are accepted. An example response may look as follows:
+1. Use the provided `customerId` to refresh and check the customer's credit rating (1-6) by invoking the `CustomerSrv` via `GET http://localhost:8000/customers/{id}/credit-rating-check (experiment.webshop.customers.resources.CustomerResource)`. Ratings of 4 or worse are rejected, ratings of 1-3 are accepted. An example response may look as follows:
 
 ```javascript
 {
@@ -40,7 +40,7 @@ The current process looks as follows (see the `createOrder()` method in the `exp
 }
 ```
 
-2. If the credit rating check was successful, the availability of the requested items is checked via the `ProductSrv`. For each item, `GET /products/{id}/availability?amount={amount} (experiment.webshop.products.resources.ProductResource)` is invoked. A product counts as `available`, if at least 3 copies would remain in stock after fullfilling the new order. An example response may look as follows:
+2. If the credit rating check was successful, the availability of the requested items is checked via the `ProductSrv`. For each item, `GET http://localhost:8050/products/{id}/availability?amount={amount} (experiment.webshop.products.resources.ProductResource)` is invoked. A product counts as `available`, if at least 3 copies would remain in stock after fullfilling the new order. An example response may look as follows:
 
 ```javascript
 {

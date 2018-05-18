@@ -36,6 +36,8 @@ public class ProductFacadeResource {
 	private Client restClient;
 	private Logger log;
 	private final String PRODUCT_SRV_ENDPOINT = "http://localhost:8050";
+	private final String CATEGORY_SRV_ENDPOINT = "http://localhost:8060";
+	private final String WAREHOUSE_SRV_ENDPOINT = "http://localhost:8070";
 
 	public ProductFacadeResource(Client restClient) {
 		this.restClient = restClient;
