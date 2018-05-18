@@ -1,4 +1,4 @@
-gnome-terminal -e 'bash -c "
+gnome-terminal --title=$(basename "$0") -e 'bash -c "
 
 name=CategorySrv
 
