@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
@@ -75,9 +76,9 @@ public class OrderResource {
 	@POST
 	@Timed
 	public BaseResponse createOrder(@NotNull @Valid Order order) {
-		BaseResponse response;
 		final long customerId = order.getCustomerId();
-		final String creditRatingUrl = CREDIT_RATING_CHECK_ENDPOINT + "/customers/" + customerId + "/credit-rating-check";
+		final String creditRatingUrl = CREDIT_RATING_CHECK_ENDPOINT + "/customers/" + customerId
+				+ "/credit-rating-check";
 		final List<OrderItem> items = order.getItems();
 
 		// Check credit rating of customer
@@ -113,8 +114,10 @@ public class OrderResource {
 				// Items available --> create order
 				final Order createdOrder = orderRepository.store(order);
 				log.info("Order with ID " + createdOrder.getId() + " successfully created.");
-				response = new BaseResponse("OK", 201,
-						"Order with ID " + createdOrder.getId() + " successfully created.");
+
+				// Return final response
+				return new BaseResponse("OK", 201, "Order with ID " + createdOrder.getId() + " successfully created.");
+
 			} else {
 				// Items not available --> decline order
 				throw new WebApplicationException("Order declined for customer with ID " + order.getCustomerId()
@@ -128,9 +131,6 @@ public class OrderResource {
 					"Order declined for customer with ID " + order.getCustomerId() + ": credit rating too low.",
 					Status.BAD_REQUEST);
 		}
-
-		return response;
-
 	}
 
 	@Path("/{id}")

@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
@@ -82,8 +84,8 @@ public class ProductResource {
 		}
 		final Product createdProduct = productRepository.storeProduct(product);
 
-		// TODO execute follow up actions after successful product creation 
-		
+		// TODO execute follow up actions after successful product creation
+
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}
 

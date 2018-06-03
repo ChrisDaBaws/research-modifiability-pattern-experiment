@@ -42,7 +42,7 @@ public class OrderProcessResource {
 	public BaseResponse createOrderProcess(@NotNull @Valid Order order) {
 		final int WORST_ALLOWED_CREDIT_RATING = 3; // 1 --> best rating, 6 --> worst rating
 		final int MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY = 3;
-		BaseResponse response;
+
 		final long customerId = order.getCustomerId();
 		final String creditRatingUrl = "http://localhost:8000/customers/" + customerId + "/credit-rating-check";
 		final String orderCreationUrl = "http://localhost:8030/orders";
@@ -85,14 +85,15 @@ public class OrderProcessResource {
 				final Invocation.Builder orderRequest = restClient.target(orderCreationUrl).request();
 				final Order createdOrder = orderRequest.post(Entity.json(order), Order.class);
 				log.info("Order with ID " + createdOrder.getId() + " successfully created.");
-				response = new BaseResponse("OK", 201,
-						"Order with ID " + createdOrder.getId() + " successfully created.");
+
+				// Return final response
+				return new BaseResponse("OK", 201, "Order with ID " + createdOrder.getId() + " successfully created.");
+
 			} else {
 				// Items not available --> decline order
 				throw new WebApplicationException("Order declined for customer with ID " + order.getCustomerId()
 						+ ": items not available in required capacity.", Status.BAD_REQUEST);
 			}
-
 		} else {
 			// Declined --> credit rating too low
 			log.info("Order declined for customer with ID " + order.getCustomerId() + ": credit rating too low.");
@@ -100,7 +101,5 @@ public class OrderProcessResource {
 					"Order declined for customer with ID " + order.getCustomerId() + ": credit rating too low.",
 					Status.BAD_REQUEST);
 		}
-
-		return response;
 	}
 }
