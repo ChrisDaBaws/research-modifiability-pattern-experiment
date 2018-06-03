@@ -10,6 +10,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import experiment.webshop.notifications.api.NewProductMailRequest;
 import experiment.webshop.notifications.api.Product;
 import experiment.webshop.notifications.resources.NotificationResource;
 

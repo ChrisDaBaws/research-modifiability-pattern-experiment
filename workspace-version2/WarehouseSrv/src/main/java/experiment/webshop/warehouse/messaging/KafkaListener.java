@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import experiment.webshop.warehouse.api.Product;
 import experiment.webshop.warehouse.resources.WarehouseResource;
+import io.dropwizard.jersey.params.IntParam;
+import io.dropwizard.jersey.params.LongParam;
 
 public class KafkaListener implements Runnable {
 	private final String KAFKA_TOPIC_NAME = "new-products";
