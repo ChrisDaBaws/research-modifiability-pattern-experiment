@@ -22,18 +22,11 @@ To handle this kind of event-based messaging, the lead developer decided to use 
 The following actions have to be performed in response to a `new product event`:
 
 1. **NotificationSrv: Add the product to the internal new product DB.** The `NotificationSrv` has an internal DB where new products have to be stored. This action has to be implemented in the `run()` method of the `experiment.webshop.notifications.messaging.KafkaListener` class. Use the provided `notificationResource` to invoke its `addNewProduct()` method. The payload for this method is the newly created `experiment.webshop.notifications.api.Product` instance that is part of the Kafka message.
-2. **NotificationSrv: Notify the sales department about the new product.** The `NotificationSrv` provides functionality for sending a mail to the sales department. This action has to be implemented in the `run()` method of the `experiment.webshop.notifications.messaging.KafkaListener` class, in the same fashion as for task 1. Use the provided `notificationResource` to invoke its `sendProductMail()` method. The payload for this method is an instance of `experiment.webshop.products.api.NewProductMailRequest`. Below is an exemplary payload (`product` will of course be the newly created product):
+2. **NotificationSrv: Notify the sales department about the new product.** The `NotificationSrv` provides functionality for sending a mail to the sales department. This action has to be implemented in the `run()` method of the `experiment.webshop.notifications.messaging.KafkaListener` class, in the same fashion as for task 1. Use the provided `notificationResource` to invoke its `sendProductMail()` method. The payload for this method is an instance of `experiment.webshop.products.api.NewProductMailRequest`. Below is an exemplary payload:
 
-```javascript
-{
-    "type": "NEW_PRODUCT_MAIL",
-    "product": {
-        "id": 1,
-        "name": "NewTestProduct"
-        "categoryId": 1,
-        "price": 9.99
-    }
-}
+```java
+// Creating a new product mail request
+NewProductMailRequest newProductMailRequest = new NewProductMailRequest("NEW_PRODUCT_MAIL", createdProduct);
 ```
 
 3. **WarehouseSrv: Stock-up on 10 copies of the newly created product.** As a start, the `WarehouseSrv` needs to have 10 copies of the new product available for purchase. This action has to be implemented in the `run()` method of the `experiment.webshop.warehouse.messaging.KafkaListener` class, in the same fashion as for task 1 and 2. To initiate the stock-up process, use the provided `warehouseResource` to invoke its `updateProductAvailability()` method.  Since this method requires the `productId` as a `io.dropwizard.jersey.params.LongParam.LongParam` and the `amount` as an `io.dropwizard.jersey.params.IntParam.IntParam`, you need to convert the values before using them as parameters:

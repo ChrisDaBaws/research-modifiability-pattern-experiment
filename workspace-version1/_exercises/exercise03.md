@@ -17,20 +17,11 @@ The product management team has decided to establish a new follow-up process whe
 The following extensions to the `createProduct()` method (`experiment.webshop.products.resources.ProductResource`) have to be added as a follow up to a successful finish:
 
 1. **NotificationSrv: Add the product to the internal new product DB.** The `NotificationSrv` has an internal DB with new products. Products can be added by invoking `POST http://localhost:8010/new-products (experiment.webshop.notifications.resources.NotificationResource)`. The payload for this method is the newly created `experiment.webshop.products.api.Product` instance that is returned from the `storeProduct()` method of the `experiment.webshop.products.db.ProductRepository`. Use the provided Jersey `restClient` instance for this. You can copy and adapt one of the existing invocation examples (e.g. the `OrderSrv`'s marketing mail request from exercise 1, task 3).
-2. **NotificationSrv: Notify the sales department about the new product.** The `NotificationSrv` provides functionality for this via `POST http://localhost:8010/product-mails (experiment.webshop.notifications.resources.NotificationResource)`. The payload for this method is an instance of `experiment.webshop.products.api.NewProductMailRequest`. Use the provided Jersey `restClient` instance for this, in the same fashion as for task 1. Below is an exemplary payload (`product` will of course be the newly created product):
+2. **NotificationSrv: Notify the sales department about the new product.** The `NotificationSrv` provides functionality for this via `POST http://localhost:8010/product-mails (experiment.webshop.notifications.resources.NotificationResource)`. The payload for this method is an instance of `experiment.webshop.products.api.NewProductMailRequest`. Use the provided Jersey `restClient` instance for this, in the same fashion as for task 1. Below is an exemplary payload:
 
-```javascript
-NewProductMailRequest example:
-
-{
-    "type": "NEW_PRODUCT_MAIL",
-    "product": {
-        "id": 1,
-        "name": "NewTestProduct"
-        "categoryId": 1,
-        "price": 9.99
-    }
-}
+```java
+// Creating a new product mail request for the NotificationSrv
+NewProductMailRequest newProductMailRequest = new NewProductMailRequest("NEW_PRODUCT_MAIL", createdProduct);
 ```
 
 3. **WarehouseSrv: Stock-up on 10 copies of the newly created product.** As a start, the `WarehouseSrv` needs to have 10 copies of the new product available for purchase. This stock-up process can be initiated by invoking `PUT http://localhost:8070/products/{id}/availability?amount=10 (experiment.webshop.warehouse.resources.WarehouseResource)`. Use the provided Jersey `restClient` instance for this, in the same fashion as for task 1 and 2. Since there is no payload (only the URL parameter `amount`), you need to use an empty string payload as a workaround like so:
