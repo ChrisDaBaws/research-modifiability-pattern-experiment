@@ -37,7 +37,7 @@ The lead developer has decided to split up the `ProductSrv` to increase maintain
 
 ## Tasks
 
-1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.ProductCategoryResource`) and a repository class (`experiment.webshop.categories.db.ProductCategoryRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.categories.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `CategorySrv` instead:
+1. **Move the product category related functionality.** Move all functionality related to product categories from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.ProductCategoryResource`) and a repository class (`experiment.webshop.categories.db.ProductCategoryRepository`) that have to be extended. All necessary model classes are already present in `experiment.webshop.categories.api` (you simply have to adjust the import statements for the copied lines). In the end, the following resources should be provided by the new `CategorySrv` instead:
 
 ```bash
 GET     /categories (experiment.webshop.categories.resources.ProductCategoryResource)
@@ -47,7 +47,7 @@ GET     /categories/{id} (experiment.webshop.categories.resources.ProductCategor
 PUT     /categories/{id} (experiment.webshop.categories.resources.ProductCategoryResource)
 ```
 
-2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that can be extended. All necessary model classes should already be present in `experiment.webshop.warehouse.api` (you simply have to adjust the import statements). In the end, the following resources should be provided by the new `WarehouseSrv` instead:
+2. **Move the product availability related functionality.** Move all functionality related to product availability from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that have to be extended. All necessary model classes are already present in `experiment.webshop.warehouse.api` (you simply have to adjust the import statements for the copied lines). In the end, the following resources should be provided by the new `WarehouseSrv` instead:
 
 ```bash
 GET     /products/{id}/availability (experiment.webshop.warehouse.resources.WarehouseResource)
@@ -58,4 +58,4 @@ PUT     /products/{id}/availability (experiment.webshop.warehouse.resources.Ware
 
 ## Validation
 
-When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.bat`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 02` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin for the manual validation part and to write down your time.
+When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.sh`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 02` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin for the manual validation part and to write down your time.

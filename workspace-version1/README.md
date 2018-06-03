@@ -10,11 +10,11 @@ This is the workspace for version 1 of the web shop. It consists of several REST
 
 ## Directory and Folder Structure
 
-There are three special folders in this directory:
+There are three special folders in the root directory:
 
 - `_docs`: This folder holds general documentation about the system, namely an architecture diagram of the initial state, another one for the final state, and a document that briefly describes each component in the system.
 - `_exercises`: This folder holds the 3 concrete exercise descriptions that have to be performed on the system.
-- `_scripts`: This folder holds scripts to build and run the components in the system, one `.bat` and one `.sh` script for every component.
+- `_scripts`: This folder holds 2 versions of scripts to build and run the components in the system, `.sh` files for Linux and `.bat` files for Windows.
 
 Moreover, every component in the system has a separate folder in this directory. Apart from the `WebUI`, they are all RESTful services, which is indicated by the `Srv` part of their folder name. Every Java service in this workspace is a Maven project and is defined via its `pom.xml` file. Maven commands like `mvn clean install` are used in the various files in the `_scripts` folder to build the executable `.jar` file for each service. The details for this are documented in the `README.md` file of each service.
 
@@ -38,9 +38,9 @@ The `resources` package holds a resource class that specifies all provided REST 
 Before you start the first exercise of the experiment, take some time (~10-15 minutes) to get familiar with the system, its services, and the build scripts. Here are some suggestions:
 
 - Have a look at the files in the `_docs` folder to get familiar with the overall architecture and functionality of the system.
-- Open your Java IDE and ensure that all Maven projects have been successfully imported.
-- Open your web IDE and have a look at the `WebUI`.
-- Have a look at some services in your Java IDE. Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
+- Open your Java IDE (Eclipse) and ensure that all Maven projects have been successfully imported.
+- Open your web IDE (Visual Studio Code) and have a look at the `WebUI`.
+- Have a look at some services in your Java IDE (Eclipse). Try to identify the packages and classes mentioned above. Have a look at `_docs/service_descriptions.pdf` and try to find some of the mentioned resources in the code.
 - As a test, start all of the components by executing all `.sh` files in `_scripts`. Then, in your browser, navigate to the WebUI at `http://localhost:5000` and check if everything is working as expected. Play around with some of the buttons. Navigate to some of the `GET` resources of some services in your browser, e.g. `http://localhost:8050/products` or `http://localhost:8000/customers`, and have a look at the JSON responses.
 - You can already start the exercise validation UI via `../exercise-validation/build-and-run-validation-ui.sh`. It will be available via your browser at `http://localhost:5001`. Just be sure to refresh the start page before you want to begin a new validation, because it needs to verify which version of the system you are running by analyzing the active services.
 - Whenever you performed changes in a service and want to test them, be sure to terminate the currently running service instance command line window (Ctrl + c) first. Then use the same script to build and run the service again with your newly implemented changes.
