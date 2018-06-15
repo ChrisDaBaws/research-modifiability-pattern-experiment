@@ -23,17 +23,17 @@ Moreover, every component in the system has a separate folder in this directory.
 
 The services use the [Dropwizard](http://www.dropwizard.io/1.3.1/docs/) Java framework to provide their RESTful HTTP APIs. They have two configuration files (`pom.xml` and `config.yml`) and all follow the same package structure:
 
-- `experiment.webshop.{serviceDomain}`  
+- `webshop.{serviceDomain}`  
 The top-level package of the service that holds the `ServiceApplication` class which is the entrypoint and the `ServiceConfiguration` class that provides getters and setters for all custom parameters in the `config.yml` file. These two classes will not be modified during the exercises.
-- `experiment.webshop.{serviceDomain}.api`  
+- `webshop.{serviceDomain}.api`  
 The `api` package holds all model classes of the service, i.e. domain entities as well as request and response classes. Some of these classes may also be present in other services, because they operate on the same entities.
-- `experiment.webshop.{serviceDomain}.db`  
+- `webshop.{serviceDomain}.db`  
 The `db` package holds a repository class that provides operations to retrieve, store, update, or delete the domain entities the service is responsible for. It acts as the sole access point to a persistent database, although none is present in this prototype implementation.
-- `experiment.webshop.{serviceDomain}.health`  
+- `webshop.{serviceDomain}.health`  
 The `health` package holds a health check class for operational/administrative purposes. It will not be modified during the exercises.
-- `experiment.webshop.{serviceDomain}.messaging`  
+- `webshop.{serviceDomain}.messaging`  
 Only some services have a `messaging` package that holds classes related to communication via Kafka topics. It may contain classes for object (de-)serialization and notifier/listener classes.
-- `experiment.webshop.{serviceDomain}.resources`  
+- `webshop.{serviceDomain}.resources`  
 The `resources` package holds a resource class that specifies all provided REST operations of the service, i.e. its interface. It uses annotations to indicate the path, e.g. `@Path("/products")`, and the HTTP method, e.g. `@GET`. Most changes will have to be performed in these resource classes.
 
 ## Familiarization Period

@@ -22,22 +22,22 @@ The `ProductSrv` has grown over time and is now fairly large compared to the oth
 
 ```bash
 # Product category resources
-GET     /categories (experiment.webshop.products.resources.ProductCategoryResource)
-POST    /categories (experiment.webshop.products.resources.ProductCategoryResource)
-DELETE  /categories/{id} (experiment.webshop.products.resources.ProductCategoryResource)
-GET     /categories/{id} (experiment.webshop.products.resources.ProductCategoryResource)
-PUT     /categories/{id} (experiment.webshop.products.resources.ProductCategoryResource)
+GET     /categories (webshop.products.resources.ProductCategoryResource)
+POST    /categories (webshop.products.resources.ProductCategoryResource)
+DELETE  /categories/{id} (webshop.products.resources.ProductCategoryResource)
+GET     /categories/{id} (webshop.products.resources.ProductCategoryResource)
+PUT     /categories/{id} (webshop.products.resources.ProductCategoryResource)
 
 # Product resources
-GET     /products (experiment.webshop.products.resources.ProductResource)
-POST    /products (experiment.webshop.products.resources.ProductResource)
-DELETE  /products/{id} (experiment.webshop.products.resources.ProductResource)
-GET     /products/{id} (experiment.webshop.products.resources.ProductResource)
-PUT     /products/{id} (experiment.webshop.products.resources.ProductResource)
+GET     /products (webshop.products.resources.ProductResource)
+POST    /products (webshop.products.resources.ProductResource)
+DELETE  /products/{id} (webshop.products.resources.ProductResource)
+GET     /products/{id} (webshop.products.resources.ProductResource)
+PUT     /products/{id} (webshop.products.resources.ProductResource)
 
 # Warehouse resources for product availability
-GET     /products/{id}/availability (experiment.webshop.products.resources.WarehouseResource)
-PUT     /products/{id}/availability (experiment.webshop.products.resources.WarehouseResource)
+GET     /products/{id}/availability (webshop.products.resources.WarehouseResource)
+PUT     /products/{id}/availability (webshop.products.resources.WarehouseResource)
 ```
 
 The lead developer has decided to split up the `ProductSrv` to increase maintainability and scaling efficiency. Two new services will be created: A `CategorySrv` handling product categories and a `WarehouseSrv` responsible for product availability. The CRUD operations related to products will remain in the `ProductSrv`. Runnable skeleton projects for the new services have already been created, they just provide no resources yet.
@@ -46,9 +46,9 @@ Since this change has been expected some months ago, precautions have been taken
 
 ## Tasks
 
-1. **Move the product category related functionality.** Move all functionality related to product categories (see above) from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`experiment.webshop.categories.resources.ProductCategoryResource`) and a repository class (`experiment.webshop.categories.db.ProductCategoryRepository`) that have to be replaced (you have to adjust the package name of the copied file though). All necessary model classes are already present in `experiment.webshop.categories.api` (you simply have to adjust the import statements in the copied files). Be sure to also remove the instantiation of the now missing functionality from the `ProductSrv`, i.e. from the `run()` method of the `experiment.webshop.products.ServiceApplication` class.
-2. **Move the product availability related functionality.** Move all functionality related to product availability (see above) from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`experiment.webshop.warehouse.resources.WarehouseResource`) and a repository class (`experiment.webshop.warehouse.db.WarehouseRepository`) that have to be replaced (you have to adjust the package name of the copied file though). All necessary model classes are already present in `experiment.webshop.warehouse.api` (you simply have to adjust the import statements in the copied files). Be sure to also remove the instantiation of the now missing functionality from the `ProductSrv`, i.e. from the `run()` method of the `experiment.webshop.products.ServiceApplication` class.
-3. **Fix the `ProductSrvFacade`.** Since we moved functionality to new endpoints, we need to adapt the invocation URLs for service consumers. This can be done centrally at the `ProductSrvFacade` in the `experiment.webshop.products.resources.ProductFacadeResource`. In addition to a `PRODUCT_SRV_ENDPOINT` variable, endpoint variables for the new services already exist. For category and warehouse operations, these new endpoint variables have to be used when building the HTTP requests.
+1. **Move the product category related functionality.** Move all functionality related to product categories (see above) from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`webshop.categories.resources.ProductCategoryResource`) and a repository class (`webshop.categories.db.ProductCategoryRepository`) that have to be replaced (you have to adjust the package name of the copied file though). All necessary model classes are already present in `webshop.categories.api` (you simply have to adjust the import statements in the copied files). Be sure to also remove the instantiation of the now missing functionality from the `ProductSrv`, i.e. from the `run()` method of the `webshop.products.ServiceApplication` class.
+2. **Move the product availability related functionality.** Move all functionality related to product availability (see above) from the `ProductSrv` to the new `WarehouseSrv`. It already has a resource class (`webshop.warehouse.resources.WarehouseResource`) and a repository class (`webshop.warehouse.db.WarehouseRepository`) that have to be replaced (you have to adjust the package name of the copied file though). All necessary model classes are already present in `webshop.warehouse.api` (you simply have to adjust the import statements in the copied files). Be sure to also remove the instantiation of the now missing functionality from the `ProductSrv`, i.e. from the `run()` method of the `webshop.products.ServiceApplication` class.
+3. **Fix the `ProductSrvFacade`.** Since we moved functionality to new endpoints, we need to adapt the invocation URLs for service consumers. This can be done centrally at the `ProductSrvFacade` in the `webshop.products.resources.ProductFacadeResource`. In addition to a `PRODUCT_SRV_ENDPOINT` variable, endpoint variables for the new services already exist. For category and warehouse operations, these new endpoint variables have to be used when building the HTTP requests.
 
 ## Validation
 
