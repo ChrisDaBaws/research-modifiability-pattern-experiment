@@ -2,13 +2,6 @@
 
 This is the workspace for version 2 of the web shop. It consists of several RESTful Java services that primarily communicate via HTTP requests. Some services also use message-based communications to publish and suscribe to events (Apache Kafka).
 
-## Prerequisites
-
-- Make sure a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) >=1.8 is installed and that the `JAVA_HOME` variable is set accordingly.
-- Make sure [Maven](https://maven.apache.org/download.cgi) >=3.5.0 is installed and `mvn` is available from the command line.
-- Make sure [Node.js](https://nodejs.org/en/download) >=8.0.0 is installed and that `npm` is available from the command line.
-- Make sure [Apache Kafka](https://kafka.apache.org/downloads) >=1.1.0 is installed. The Windows build scripts for Kafka and Zookeeper currently expect all related files to reside in `C:\dev\apache-kafka`. If you installed Kafka somewhere else, be sure to adjust `_scripts\win\1_start-zookeeper.bat` and `_scripts\win\2_start-kafka.bat` with your custom path. In the provided Ubuntu VM, both Zookeeper and Kafka are already installed and run as services. So you won't need start scripts.
-
 ## Directory and Folder Structure
 
 There are three special folders in this directory:

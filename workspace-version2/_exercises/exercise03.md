@@ -7,7 +7,7 @@ The following services are involved and have to be started before the final exer
 - NotificationSrv (`http://localhost:8010`)
 - OrderProcessSrv (`http://localhost:8020`)
 - ProductSrv (`http://localhost:8050`)
-- WarehouseSrv  (`http://localhost:8070`)
+- WarehouseSrv (`http://localhost:8070`)
 - Apache Zookeeper (`localhost:2181`, starts automatically in the provided Ubuntu VM)
 - Apache Kafka (`localhost:9092`, starts automatically in the provided Ubuntu VM)
 
@@ -29,7 +29,7 @@ The following actions have to be performed in response to a `new product event`:
 NewProductMailRequest newProductMailRequest = new NewProductMailRequest("NEW_PRODUCT_MAIL", createdProduct);
 ```
 
-3. **WarehouseSrv: Stock-up on 10 copies of the newly created product.** As a start, the `WarehouseSrv` needs to have 10 copies of the new product available for purchase. This action has to be implemented in the `run()` method of the `webshop.warehouse.messaging.KafkaListener` class, in the same fashion as for task 1 and 2. To initiate the stock-up process, use the provided `warehouseResource` to invoke its `updateProductAvailability()` method.  Since this method requires the `productId` as a `LongParam` and the `amount` as an `IntParam`, you need to convert the values before using them as parameters:
+3. **WarehouseSrv: Stock-up on 10 copies of the newly created product.** As a start, the `WarehouseSrv` needs to have 10 copies of the new product available for purchase. This action has to be implemented in the `run()` method of the `webshop.warehouse.messaging.KafkaListener` class, in the same fashion as for task 1 and 2. To initiate the stock-up process, use the provided `warehouseResource` to invoke its `updateProductAvailability()` method. Since this method requires the `productId` as a `LongParam` and the `amount` as an `IntParam`, you need to convert the values before using them as parameters:
 
 ```java
 LongParam productId = new LongParam(String.valueOf(createdProduct.getId()));

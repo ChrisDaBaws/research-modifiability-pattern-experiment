@@ -6,7 +6,7 @@ The following services are involved and have to be started before the final exer
 
 - NotificationSrv (`http://localhost:8010`)
 - ProductSrv (`http://localhost:8050`)
-- WarehouseSrv  (`http://localhost:8070`)
+- WarehouseSrv (`http://localhost:8070`)
 
 ## Description
 

@@ -8,8 +8,8 @@ The following services are involved and have to be started before the final exer
 - NotificationSrv (`http://localhost:8010`)
 - OrderSrv (`http://localhost:8030`)
 - ProductSrv (`http://localhost:8050`)
-- CategorySrv  (`http://localhost:8060`)
-- WarehouseSrv  (`http://localhost:8070`)
+- CategorySrv (`http://localhost:8060`)
+- WarehouseSrv (`http://localhost:8070`)
 - WebUI (`http://localhost:5000`)
 
 ## Description

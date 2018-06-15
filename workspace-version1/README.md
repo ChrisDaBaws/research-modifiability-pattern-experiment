@@ -2,12 +2,6 @@
 
 This is the workspace for version 1 of the web shop. It consists of several RESTful Java services that communicate via HTTP requests.
 
-## Prerequisites
-
-- Make sure a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) >=1.8 is installed and that the `JAVA_HOME` variable is set accordingly.
-- Make sure [Maven](https://maven.apache.org/download.cgi) >=3.5.0 is installed and `mvn` is available from the command line.
-- Make sure [Node.js](https://nodejs.org/en/download) >=8.0.0 is installed and that `npm` is available from the command line.
-
 ## Directory and Folder Structure
 
 There are three special folders in the root directory:
