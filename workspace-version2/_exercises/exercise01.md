@@ -39,6 +39,8 @@ Invocation.Builder request = restClient.target(notificationSrvUrl).request();
 request.post(Entity.json(marketingMailRequest), BaseResponse.class);
 ```
 
+![Marketing Mail Request](./img/exercise1-task3.png)
+
 ## Validation
 
 When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.sh`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 01` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin to write down your time.

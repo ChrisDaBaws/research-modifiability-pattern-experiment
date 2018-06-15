@@ -44,6 +44,8 @@ The lead developer has decided to split up the `ProductSrv` to increase maintain
 
 Since this change has been expected some months ago, precautions have been taken. First, the different capabilities of the `ProductSrv` have already been decomposed in separate classes (one `Resource` and one `Repository` class per capability). And second, the `ProductSrvFacade` shields the `ProductSrv` from all consumers so that it will be the only component that has to be adjusted with the new URLs.
 
+![Product Service Decomposition](./img/exercise2-all.png)
+
 ## Tasks
 
 1. **Move the product category related functionality.** Move all functionality related to product categories (see above) from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`webshop.categories.resources.ProductCategoryResource`) and a repository class (`webshop.categories.db.ProductCategoryRepository`) that have to be replaced (you have to adjust the package name of the copied file though). All necessary model classes are already present in `webshop.categories.api` (you simply have to adjust the import statements in the copied files). Be sure to also remove the instantiation of the now missing functionality from the `ProductSrv`, i.e. from the `run()` method of the `webshop.products.ServiceApplication` class.

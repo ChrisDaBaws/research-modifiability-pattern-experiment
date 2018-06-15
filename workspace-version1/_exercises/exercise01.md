@@ -23,7 +23,7 @@ After some research, the sales team has decided that this process should now be 
 
 1. **Change the credit rating validation logic.** From now on, ratings of 1-4 should be accepted and ratings from 5-6 should be rejected. In short, the worst allowed rating should be increased from 3 to 4. This `CustomerSrv` change has to be performed in the `updateAndCheckCreditRating()` method of the `webshop.customers.resources.CustomerResource` class.
 2. **Change the product availability validation logic.** From now on, at least 2 copies of the ordered product have to remain in stock after fulfilling the new order for the product to count as `available`. In short, the minimal remaining amount should be decreased from 3 to 2. This `ProductSrv` change has to be performed in the `checkProductAvailability()` method of the `webshop.products.resources.ProductResource` class.
-3. **Add a new final process step.** After creating a new order and before returning the final response, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST http://localhost:8010/marketing-mails`. Use the provided Jersey `restClient` instance for this. As request payload, you have to create an instance of `webshop.orders.api.MarketingMailRequest`. An example is provided below.
+3. **Add a new final process step.** After creating a new order and before returning the final response, the `NotificationSrv` should be invoked to send a marketing mail with similar products to the customer via `POST http://localhost:8010/marketing-mails`. Use the provided Jersey `restClient` instance for this. As request payload, you have to create an instance of `webshop.orders.api.MarketingMailRequest`. A code example and a diagram are provided below.
 
 ```java
 // Invoking the NotificationSrv to send a SIMILAR_PRODUCTS_MAIL for the new order
@@ -32,6 +32,8 @@ MarketingMailRequest marketingMailRequest = new MarketingMailRequest("SIMILAR_PR
 Invocation.Builder request = restClient.target(notificationSrvUrl).request();
 request.post(Entity.json(marketingMailRequest), BaseResponse.class);
 ```
+
+![Marketing Mail Request](./img/exercise1-task3.png)
 
 ## Validation
 

@@ -38,6 +38,8 @@ PUT     /products/{id}/availability (webshop.products.resources.ProductResource)
 
 The lead developer has decided to split up the `ProductSrv` to increase maintainability and scaling efficiency. Two new services will be created: A `CategorySrv` handling product categories and a `WarehouseSrv` responsible for product availability. The CRUD operations related to products will remain in the `ProductSrv`. Runnable skeleton projects for the new services have already been created, they just provide no resources yet.
 
+![Product Service Decomposition](./img/exercise2-all.png)
+
 ## Tasks
 
 1. **Move the product category related functionality.** Move all functionality related to product categories (see above) from the `ProductSrv` to the new `CategorySrv`. It already has a resource class (`webshop.categories.resources.ProductCategoryResource`) and a repository class (`webshop.categories.db.ProductCategoryRepository`) that have to be extended. All necessary model classes are already present in `webshop.categories.api` (you simply have to adjust the import statements for the copied lines).
