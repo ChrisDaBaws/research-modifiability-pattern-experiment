@@ -44,8 +44,9 @@ public class KafkaListener implements Runnable {
 			for (ConsumerRecord<String, Product> message : messages) {
 				Product createdProduct = message.value();
 
-				// TODO: Procurement process --> Increase the available amount of the new product to 10
-
+				// TODO Ex3, Task3: Increase the available amount of the new product to 10 using 'this.warehouseResource.updateProductAvailability()'
+				
+				
 			}
 		}
 	}

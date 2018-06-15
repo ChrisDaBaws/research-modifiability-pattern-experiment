@@ -97,6 +97,8 @@ public class ProductFacadeResource {
 	@Timed
 	public ProductAvailabilityCheckResponse checkProductAvailability(@PathParam("id") LongParam productId,
 			@QueryParam("amount") @DefaultValue("1") IntParam requestedAmount) {
+		
+		// TODO Ex2, Task3: Change to use the WAREHOUSE_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient
 				.target(PRODUCT_SRV_ENDPOINT + "/products/" + productId + "/availability?amount=" + requestedAmount)
 				.request();
@@ -108,6 +110,8 @@ public class ProductFacadeResource {
 	@Timed
 	public BaseResponse updateProductAvailability(@PathParam("id") LongParam productId,
 			@QueryParam("amount") @DefaultValue("1") IntParam amount) {
+		
+		// TODO Ex2, Task3: Change to use the WAREHOUSE_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient
 				.target(PRODUCT_SRV_ENDPOINT + "/products/" + productId + "/availability?amount=" + amount).request();
 		return request.put(Entity.json(""), BaseResponse.class);
@@ -119,6 +123,7 @@ public class ProductFacadeResource {
 	@GET
 	@Timed
 	public List<ProductCategory> getCategories(@QueryParam("limit") @DefaultValue("20") IntParam limit) {
+		// TODO Ex2, Task3: Change to use the CATEGORY_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient.target(PRODUCT_SRV_ENDPOINT + "/categories?limit=" + limit)
 				.request();
 		return request.get(new GenericType<List<ProductCategory>>() {
@@ -129,6 +134,7 @@ public class ProductFacadeResource {
 	@GET
 	@Timed
 	public ProductCategory getCategoryById(@PathParam("id") LongParam categoryId) {
+		// TODO Ex2, Task3: Change to use the CATEGORY_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient.target(PRODUCT_SRV_ENDPOINT + "/categories/" + categoryId)
 				.request();
 		return request.get(ProductCategory.class);
@@ -138,6 +144,7 @@ public class ProductFacadeResource {
 	@POST
 	@Timed
 	public BaseResponse createCategory(@NotNull @Valid ProductCategory category) {
+		// TODO Ex2, Task3: Change to use the CATEGORY_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient.target(PRODUCT_SRV_ENDPOINT + "/categories").request();
 		return request.post(Entity.json(category), BaseResponse.class);
 	}
@@ -147,6 +154,7 @@ public class ProductFacadeResource {
 	@Timed
 	public BaseResponse updateCategory(@PathParam("id") LongParam categoryId,
 			@NotNull @Valid ProductCategory category) {
+		// TODO Ex2, Task3: Change to use the CATEGORY_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient.target(PRODUCT_SRV_ENDPOINT + "/categories/" + categoryId)
 				.request();
 		return request.put(Entity.json(category), BaseResponse.class);
@@ -156,6 +164,7 @@ public class ProductFacadeResource {
 	@DELETE
 	@Timed
 	public BaseResponse deleteCategory(@PathParam("id") LongParam categoryId) {
+		// TODO Ex2, Task3: Change to use the CATEGORY_SRV_ENDPOINT variable
 		final Invocation.Builder request = restClient.target(PRODUCT_SRV_ENDPOINT + "/categories/" + categoryId)
 				.request();
 		return request.delete(BaseResponse.class);

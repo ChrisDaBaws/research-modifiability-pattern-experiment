@@ -84,7 +84,14 @@ public class ProductResource {
 		}
 		final Product createdProduct = productRepository.storeProduct(product);
 
-		// TODO execute follow up actions after successful product creation
+		// TODO Ex3, Task1: Invoke NotificationSrv to add the new product to the "new-products" DB
+		
+		
+		// TODO Ex3, Task2: Invoke NotificationSrv to send a "new-product" mail to the sales department
+		
+		
+		// TODO Ex3, Task3: Invoke WarehouseSrv to set the availability of the new product to 10 copies
+		
 
 		return new BaseResponse("OK", 201, "Product with ID " + createdProduct.getId() + " successfully created.");
 	}
@@ -126,6 +133,7 @@ public class ProductResource {
 			throw new WebApplicationException(msg, Status.NOT_FOUND);
 		}
 
+		// TODO Ex1, Task2: Change MINIMAL_REMAINING_AMOUNT_NECESSARY
 		final int MINIMAL_REMAINING_AMOUNT_NECESSARY = 3;
 		return new ProductAvailabilityCheckResponse(productId.get(),
 				(availableAmount - requestedAmount.get() >= MINIMAL_REMAINING_AMOUNT_NECESSARY), requestedAmount.get());

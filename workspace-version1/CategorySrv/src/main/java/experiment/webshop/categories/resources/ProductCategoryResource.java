@@ -11,6 +11,9 @@ import experiment.webshop.categories.db.ProductCategoryRepository;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductCategoryResource {
+	
+	// TODO Ex2, Task1: Extend this class with category resource functionality from the ProductSrv
+	
 	private ProductCategoryRepository categoryRepository;
 	private Logger log;
 

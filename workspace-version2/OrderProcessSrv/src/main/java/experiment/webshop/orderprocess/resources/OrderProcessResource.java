@@ -40,7 +40,9 @@ public class OrderProcessResource {
 	@POST
 	@Timed
 	public BaseResponse createOrderProcess(@NotNull @Valid Order order) {
+		// TODO Ex1, Task1: Change WORST_ALLOWED_CREDIT_RATING
 		final int WORST_ALLOWED_CREDIT_RATING = 3; // 1 --> best rating, 6 --> worst rating
+		// TODO Ex1, Task2: Change MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY
 		final int MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY = 3;
 
 		final long customerId = order.getCustomerId();
@@ -86,6 +88,9 @@ public class OrderProcessResource {
 				final Order createdOrder = orderRequest.post(Entity.json(order), Order.class);
 				log.info("Order with ID " + createdOrder.getId() + " successfully created.");
 
+				// TODO Ex1, Task3: Invoke NotificationSrv to send marketing mail
+				
+				
 				// Return final response
 				return new BaseResponse("OK", 201, "Order with ID " + createdOrder.getId() + " successfully created.");
 

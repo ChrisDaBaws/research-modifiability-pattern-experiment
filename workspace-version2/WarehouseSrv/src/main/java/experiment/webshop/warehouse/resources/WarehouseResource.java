@@ -11,6 +11,9 @@ import experiment.webshop.warehouse.db.WarehouseRepository;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class WarehouseResource {
+	
+	// TODO Ex2, Task2: Replace this class with warehouse (product availability) resource class from the ProductSrv
+	
 	private WarehouseRepository warehouseRepository;
 	private Logger log;
 

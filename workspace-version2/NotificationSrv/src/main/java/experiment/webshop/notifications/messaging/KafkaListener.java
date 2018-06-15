@@ -43,10 +43,12 @@ public class KafkaListener implements Runnable {
 			for (ConsumerRecord<String, Product> message : messages) {
 				Product createdProduct = message.value();
 
-				// TODO: Add the new product to the internal DB
+				// TODO Ex3, Task1: Add the new product to the "new-products" DB using 'this.notificationResource.addNewProduct()'
+				
 
-				// TODO: Notify sales department mailing list of the new product
+				// TODO Ex3, Task2: Notify sales department about the new product using 'this.notificationResource.sendProductMail()'
 
+				
 			}
 		}
 	}
