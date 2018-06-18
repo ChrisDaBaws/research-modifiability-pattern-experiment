@@ -15,7 +15,7 @@ The following services are involved and have to be started before the final exer
 
 The product management team has decided to establish a new follow-up process when a new product has been added to the DB of the `ProductSrv`. To make their job easier and reduce manual efforts, several automatic actions have to be performed when a new product has been successfully created via `POST http://localhost:8050/products (webshop.products.resources.ProductResource)`.
 
-To handle this kind of event-based messaging, the lead developer decided to use the message-oriented middleware Apache Kafka. Kafka provides so called `topics` that message producers can publish to. Message consumers can subscribe to `topics` and will receive all published messages. The `ProductSrv` already publishes a `new product event` (which is basically an instance of `webshop.products.api.Product`) to the Kafka topic `new-products`. The `NotificationSrv` and the `WarehouseSrv` already subscribe to these events (see the classes `webshop.notifications.messaging.KafkaListener` and `webshop.warehouse.messaging.KafkaListener`), but currently do nothing when such an event comes in.
+To handle this kind of event-based messaging, the lead developer decided to use the message-oriented middleware Apache Kafka. The `ProductSrv` already publishes a `new product event`. The `NotificationSrv` and the `WarehouseSrv` already subscribe to these events (see the classes `webshop.notifications.messaging.KafkaListener` and `webshop.warehouse.messaging.KafkaListener`), but currently do nothing when such an event comes in.
 
 ## Tasks
 
