@@ -1,6 +1,10 @@
 # Service Descriptions
 
-This document provides a brief overview for every service.
+This document provides a brief overview of the domain and every service.
+
+## Domain Model
+
+![Domain Model](./00_domain-model.png)
 
 ## CustomerSrv
 
@@ -29,10 +33,9 @@ GET     /marketing-mails (webshop.notifications.resources.NotificationResource)
 POST    /marketing-mails (webshop.notifications.resources.NotificationResource)
 GET     /marketing-mails/{id} (webshop.notifications.resources.NotificationResource)
 
-
 GET     /product-mails (webshop.notifications.resources.NotificationResource)
 POST    /product-mails (webshop.notifications.resources.NotificationResource)
-GET     /product-mails/{id} (webshop.notifications.resources.NotificationResource)(webshop.customers.resources.CustomerResource)
+GET     /product-mails/{id} (webshop.notifications.resources.NotificationResource)
 
 GET     /new-products (webshop.notifications.resources.NotificationResource)
 POST    /new-products (webshop.notifications.resources.NotificationResource)
@@ -114,3 +117,11 @@ PUT     /products/{id}/availability (webshop.products.resources.WarehouseResourc
 Endpoint: `http://localhost:5000`
 
 The Web UI provides easy read access to the resources of most services.
+
+## Initial Architecture
+
+![Initial](./01_architecture-initial.png)
+
+## Final Architecture
+
+![Initial](./02_architecture-final.png)
