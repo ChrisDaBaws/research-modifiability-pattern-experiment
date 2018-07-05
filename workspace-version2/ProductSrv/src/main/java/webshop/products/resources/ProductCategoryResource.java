@@ -36,7 +36,7 @@ public class ProductCategoryResource {
 
 	public ProductCategoryResource(ProductCategoryRepository repository) {
 		this.categoryRepository = repository;
-		this.log = LoggerFactory.getLogger(ProductResource.class);
+		this.log = LoggerFactory.getLogger(ProductCategoryResource.class);
 		log.info("ProductCategoryResource instantiated...");
 	}
 

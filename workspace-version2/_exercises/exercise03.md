@@ -5,11 +5,8 @@
 The following services are involved and have to be started before the final exercise validation:
 
 - NotificationSrv (`http://localhost:8010`)
-- OrderProcessSrv (`http://localhost:8020`)
 - ProductSrv (`http://localhost:8050`)
 - WarehouseSrv (`http://localhost:8070`)
-- Apache Zookeeper (`localhost:2181`, starts automatically in the provided Ubuntu VM)
-- Apache Kafka (`localhost:9092`, starts automatically in the provided Ubuntu VM)
 
 ## Description
 
@@ -38,4 +35,4 @@ IntParam amount = new IntParam("10");
 
 ## Validation
 
-When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.sh`) and then navigate to `http://localhost:5001` (**it is important to start from this page, because it will determine which version you are working on**). Click on `Exercise 03` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin to write down your time.
+When you are finished with all tasks, make sure all required services (see [Required Services](#required-services)) and the exercise validation UI is up and running (if not, execute `exercise-validation/build-and-run-validation-ui.sh`) and then navigate to `http://localhost:5001`. Click on `Exercise 03` and then on `Start Validation`. If every check is successful (`status: true`), pause your stopwatch and notify an experiment admin to write down your time.
