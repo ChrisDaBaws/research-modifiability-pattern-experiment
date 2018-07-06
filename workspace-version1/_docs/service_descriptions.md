@@ -81,8 +81,7 @@ PUT     /products/{id}/availability (webshop.products.resources.ProductResource)
 
 ## Web UI
 
-Endpoint: `http://localhost:5000`
-
+Endpoint: `http://localhost:5000`  
 The Web UI provides easy read access to the resources of most services.
 
 ## Initial Architecture

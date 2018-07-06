@@ -1,4 +1,4 @@
-Vue.prototype.$patternVersion = undefined;
+Vue.prototype.$patternVersion = true;
 
 Vue.component("test-results", {
     props: ["test"],
@@ -12,21 +12,8 @@ Vue.component("test-results", {
 
 const startPage = Vue.component("start-page", {
     template: "#startpage",
-    data: function () {
-        return {
-            versionDetermined: false
-        };
-    },
     created() {
-        axios.get("http://localhost:8021/healthcheck").then(response => {
-            console.log("OrderProcessSrv detected... Pattern version!");
-            Vue.prototype.$patternVersion = true;
-            this.versionDetermined = true;
-        }).catch(e => {
-            console.log("No OrderProcessSrv detected... Non-pattern version!");
-            Vue.prototype.$patternVersion = false;
-            this.versionDetermined = true;
-        });
+        console.log(`Version ${this.$patternVersion ? "2" : "1"} of the system is tested!`);
     }
 });
 
