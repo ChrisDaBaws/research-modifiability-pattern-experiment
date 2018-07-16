@@ -2,6 +2,7 @@ package webshop.orderprocess.api;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreditRatingCheckResponse {

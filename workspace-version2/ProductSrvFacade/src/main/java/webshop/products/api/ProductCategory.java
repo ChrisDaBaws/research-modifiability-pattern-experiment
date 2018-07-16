@@ -3,6 +3,7 @@ package webshop.products.api;
 import java.util.List;
 
 import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
