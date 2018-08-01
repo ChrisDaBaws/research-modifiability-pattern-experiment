@@ -1,1 +1,1 @@
-package src.main.java.webshop.categories.db;
+package webshop.categories.db;

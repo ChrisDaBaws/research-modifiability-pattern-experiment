@@ -1,1 +1,1 @@
-package src.main.java.webshop.categories;
+package webshop.categories;

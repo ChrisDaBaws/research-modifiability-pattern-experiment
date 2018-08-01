@@ -1,1 +1,1 @@
-package src.main.java.webshop.categories.health;
+package webshop.categories.health;
