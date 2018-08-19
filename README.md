@@ -15,3 +15,5 @@ Prerequisites (if you use the provided Ubuntu VM, everything is already installe
 - Install a modern web browser (recommended: [Mozilla Firefox](https://www.mozilla.org/en-US/firefox))
 
 Please choose a version and refer to the README in the respective workspace folder. The exercise evaluation web UI that checks if the exercise has been successfully finished is the same for both versions (`./exercise-validation`).
+
+We also uploaded all artifacts related to the first conducted experiment with 69 Bachelor students (see `_experiment-results`). The data in CSV format, the R script for the analysis, as well as the survey questions are provided.
