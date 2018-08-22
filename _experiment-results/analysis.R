@@ -27,7 +27,7 @@ dataDuration <- data %>%
   select(pId, version, ex1Duration, ex2Duration, ex3Duration) %>% 
   gather(key = "exercise", value = "duration", ex1Duration, ex2Duration, ex3Duration) %>% 
   mutate(exercise = gsub("ex", "", exercise)) %>% 
-  mutate(exercise = gsub("Duration", "", exercise)) %>% 
+  mutate(exercise = as.integer(gsub("Duration", "", exercise))) %>% 
   arrange(pId, exercise)
 
 # Compare groups --------
@@ -37,6 +37,8 @@ dataDuration <- data %>%
 
 groupComparison <- 
   data %>%
+  # only use participants with effectiveness >= 66%
+  # filter(!is.na(ex2Duration)) %>%
   group_by(version) %>% 
   summarise(
     numParticipants = n(),
@@ -95,22 +97,45 @@ groupComparison$avgDuration <- aggregate(duration ~ version, dataDuration, mean)
 # Duration analysis (efficiency) ------
 
 meanValueToolTips <- dataDuration %>% 
+  mutate(exercise = factor(exercise, levels = c(1,2,3), labels = c("#1: Process Abstraction", "#2: Service Facade", "#3: Event-Driven Messaging"))) %>% 
   group_by(version, exercise) %>% 
   select(version, exercise, duration) %>% 
   summarise(duration = round(mean(duration, na.rm = TRUE)))
 
 # Create box plot to compare duration of versions
 dataDuration %>%
-  mutate(version = factor(version)) %>%
+  mutate(version = factor(version, levels = c(1,2), labels = c("#1 (no patterns)", "#2 (patterns)"))) %>%
+  mutate(exercise = factor(exercise, levels = c(1,2,3), labels = c("#1: Process Abstraction", "#2: Service Facade", "#3: Event-Driven Messaging"))) %>% 
   ggplot(aes(x = version, y = duration, fill = exercise)) +
   geom_boxplot(na.rm = TRUE) +
   facet_grid(exercise ~ .) +
-  labs(x = "Group / Version", y = "Duration in sec", fill = "Exercise Number") +
-  theme(axis.text.x = element_text(size=12, face="bold")) +
+  labs(x = "Group / Version", y = "Duration in sec", fill = "Task Number") +
+  theme(axis.text.x = element_text(size=12)) +
   geom_text(data = meanValueToolTips, aes(label = duration), nudge_x = -0.45)
-  
 
-# Calculate t-tests for mean duration between versions per exercise
+
+# Calculate t-tests for mean effectiveness difference between versions
+trimPercent = 0.0 # cut off the best and worst x percent
+t.test(
+  x = data %>%
+    filter(version == 1) %>%
+    select(effectiveness) %>% 
+    Trim(trim = trimPercent, na.rm = TRUE),
+  y = data %>% 
+    filter(version == 2) %>%
+    select(effectiveness) %>% 
+    Trim(trim = trimPercent, na.rm = TRUE),
+  var.equal = FALSE,
+  conf.level = 0.99
+)
+
+# --> no significant p for all exercises at once (exNum = c(1,2,3)): 0.309
+# --> highly significant p for exercises 2 and 3 together (exNum = c(2,3)): 0.004
+# --> no significant p for ex 1 (exNum = c(1)): 0.442
+# --> no significant p for ex 2 (exNum = c(2)): 0.119
+# --> highly significant p for ex 3 (exNum = c(3)): 0.008  
+
+# Calculate t-tests for mean duration difference between versions per exercise
 exNum = c(1,2,3) # select exercises
 trimPercent = 0.0 # cut off the best and worst x percent
 t.test(
@@ -125,7 +150,7 @@ t.test(
     select(duration) %>% 
     Trim(trim = trimPercent, na.rm = TRUE),
   var.equal = FALSE,
-  conf.level = 0.95
+  conf.level = 0.99
 )
 
 # --> no significant p for all exercises at once (exNum = c(1,2,3)): 0.309
