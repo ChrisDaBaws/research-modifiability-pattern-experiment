@@ -1,0 +1,7 @@
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: "1.0.0"
+    title: CustomerSrv
+    description: A service providing CRUD operations for `Customer` entities as well as a credit rating check.

@@ -5,14 +5,15 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 
-import org.eclipse.jetty.servlets.CrossOriginFilter;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import webshop.customers.db.CustomerRepository;
 import webshop.customers.health.StandardHealthCheck;
 import webshop.customers.resources.CustomerResource;
@@ -56,6 +57,8 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(customerResource);
+		// Register OpenAPI endpoint
+		environment.jersey().register(new OpenApiResource());
 	}
 
 }

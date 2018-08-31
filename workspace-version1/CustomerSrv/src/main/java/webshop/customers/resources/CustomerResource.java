@@ -51,10 +51,10 @@ public class CustomerResource {
 		return customers;
 	}
 
-	@Path("/{id}")
+	@Path("/{customerId}")
 	@GET
 	@Timed
-	public Customer getCustomerById(@PathParam("id") LongParam customerId) {
+	public Customer getCustomerById(@PathParam("customerId") LongParam customerId) {
 		final Customer customer = customerRepository.getById(customerId.get());
 
 		if (customer == null) {
@@ -76,19 +76,20 @@ public class CustomerResource {
 		return new BaseResponse("OK", 201, "Customer with ID " + createdCustomer.getId() + " successfully created.");
 	}
 
-	@Path("/{id}")
+	@Path("/{customerId}")
 	@PUT
 	@Timed
-	public BaseResponse updateCustomer(@PathParam("id") LongParam customerId, @NotNull @Valid Customer customer) {
+	public BaseResponse updateCustomer(@PathParam("customerId") LongParam customerId,
+			@NotNull @Valid Customer customer) {
 		final Customer updatedCustomer = customerRepository.update(customerId.get(), customer);
 
 		return new BaseResponse("OK", 204, "Customer with ID " + updatedCustomer.getId() + " successfully updated.");
 	}
 
-	@Path("/{id}")
+	@Path("/{customerId}")
 	@DELETE
 	@Timed
-	public BaseResponse deleteCustomer(@PathParam("id") LongParam customerId) {
+	public BaseResponse deleteCustomer(@PathParam("customerId") LongParam customerId) {
 		final boolean deleted = customerRepository.deleteById(customerId.get());
 
 		return new BaseResponse(deleted ? "OK" : "FAILED", deleted ? 202 : 400,
@@ -96,10 +97,10 @@ public class CustomerResource {
 						: "Failed to delete customer with ID " + customerId.get() + ".");
 	}
 
-	@Path("/{id}/credit-rating-check")
+	@Path("/{customerId}/credit-rating-check")
 	@GET
 	@Timed
-	public CreditRatingCheckResponse updateAndCheckCreditRating(@PathParam("id") LongParam customerId) {
+	public CreditRatingCheckResponse updateAndCheckCreditRating(@PathParam("customerId") LongParam customerId) {
 		log.info("Revalidating credit rating for customer with ID " + customerId.get() + "...");
 
 		final int rating = customerRepository.updateAndGetRating(customerId.get());
