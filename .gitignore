@@ -30,3 +30,6 @@ dependency-reduced-pom.xml
 .recommenders/
 .metadata/
 node_modules/
+
+# Sonar
+*.scannerwork*

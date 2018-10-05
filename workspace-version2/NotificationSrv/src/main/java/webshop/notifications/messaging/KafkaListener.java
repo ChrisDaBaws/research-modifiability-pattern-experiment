@@ -36,6 +36,7 @@ public class KafkaListener implements Runnable {
 
 	@Override
 	public void run() {
+		@SuppressWarnings("resource")
 		final Consumer<String, Product> consumer = new KafkaConsumer<String, Product>(kafkaProps);
 		consumer.subscribe(Arrays.asList(KAFKA_TOPIC_NAME));
 		while (true) {
@@ -43,12 +44,12 @@ public class KafkaListener implements Runnable {
 			for (ConsumerRecord<String, Product> message : messages) {
 				Product createdProduct = message.value();
 
-				// TODO Ex3, Task1: Add the new product to the "new-products" DB using 'this.notificationResource.addNewProduct()'
-				
+				// Add product to internal DB
+				this.notificationResource.addNewProduct(createdProduct);
 
-				// TODO Ex3, Task2: Notify sales department about the new product using 'this.notificationResource.sendProductMail()'
-
-				
+				// Send new product mail to sales department
+				NewProductMailRequest mailRequest = new NewProductMailRequest("NEW_PRODUCT_MAIL", createdProduct);
+				this.notificationResource.sendProductMail(mailRequest);
 			}
 		}
 	}
