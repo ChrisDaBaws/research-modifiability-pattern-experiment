@@ -24,8 +24,7 @@ const app = new Vue({
         });
 
         // Retrieve all product categories
-        // TODO Ex2, Task3: Change to use the categorySrvEndpoint variable
-        axios.get(`${this.productSrvEndpoint}/categories`).then(response => {
+        axios.get(`${this.categorySrvEndpoint}/categories`).then(response => {
             this.categories = response.data;
         });
 
@@ -44,8 +43,7 @@ const app = new Vue({
     methods: {
 
         checkProductAvailability(product, index) {
-            // TODO Ex2, Task3: Change to use the warehouseSrvEndpoint variable
-            axios.get(`${this.productSrvEndpoint}/products/${product.id}/availability?amount=${product.requestedAmount}`).then(response => {
+            axios.get(`${this.warehouseSrvEndpoint}/products/${product.id}/availability?amount=${product.requestedAmount}`).then(response => {
                 product.available = response.data.available;
                 this.products.splice(index, 1, product);
             });

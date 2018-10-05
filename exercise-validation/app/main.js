@@ -1,4 +1,4 @@
-Vue.prototype.$patternVersion = true;
+Vue.prototype.$patternVersion = false;
 
 Vue.component("test-results", {
     props: ["test"],

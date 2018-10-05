@@ -1,6 +1,7 @@
 package webshop.products.api;
 
 import javax.validation.constraints.Min;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProductAvailabilityCheckResponse {
