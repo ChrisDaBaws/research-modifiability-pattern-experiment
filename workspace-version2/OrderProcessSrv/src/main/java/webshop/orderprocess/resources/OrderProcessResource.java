@@ -14,16 +14,17 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codahale.metrics.annotation.Timed;
 
 import webshop.orderprocess.api.BaseResponse;
 import webshop.orderprocess.api.CreditRatingCheckResponse;
+import webshop.orderprocess.api.MarketingMailRequest;
 import webshop.orderprocess.api.Order;
 import webshop.orderprocess.api.OrderItem;
 import webshop.orderprocess.api.ProductAvailabilityCheckResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Path("/order-process")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,10 +41,8 @@ public class OrderProcessResource {
 	@POST
 	@Timed
 	public BaseResponse createOrderProcess(@NotNull @Valid Order order) {
-		// TODO Ex1, Task1: Change WORST_ALLOWED_CREDIT_RATING
-		final int WORST_ALLOWED_CREDIT_RATING = 3; // 1 --> best rating, 6 --> worst rating
-		// TODO Ex1, Task2: Change MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY
-		final int MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY = 3;
+		final int WORST_ALLOWED_CREDIT_RATING = 4; // 1 --> best rating, 6 --> worst rating
+		final int MINIMAL_REMAINING_PRODUCT_AMOUNT_NECESSARY = 2;
 
 		final long customerId = order.getCustomerId();
 		final String creditRatingUrl = "http://localhost:8000/customers/" + customerId + "/credit-rating-check";
@@ -88,9 +87,13 @@ public class OrderProcessResource {
 				final Order createdOrder = orderRequest.post(Entity.json(order), Order.class);
 				log.info("Order with ID " + createdOrder.getId() + " successfully created.");
 
-				// TODO Ex1, Task3: Invoke NotificationSrv to send marketing mail
-				
-				
+				// Invoking the NotificationSrv to send a SIMILAR_PRODUCTS_MAIL for the new
+				// order
+				MarketingMailRequest marketingMailRequest = new MarketingMailRequest("SIMILAR_PRODUCTS_MAIL",
+						createdOrder);
+				Invocation.Builder request = restClient.target("http://localhost:8010/marketing-mails").request();
+				request.post(Entity.json(marketingMailRequest), BaseResponse.class);
+
 				// Return final response
 				return new BaseResponse("OK", 201, "Order with ID " + createdOrder.getId() + " successfully created.");
 

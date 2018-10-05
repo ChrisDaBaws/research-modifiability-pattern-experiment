@@ -19,6 +19,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dropwizard.version>1.3.0</dropwizard.version>
 		<mainClass>webshop.orderprocess.ServiceApplication</mainClass>
+		<sonar.projectName>OrderProcessSrv_Version2</sonar.projectName>
+		<sonar.projectKey>OrderProcessSrv_Version2</sonar.projectKey>
 	</properties>
 
 	<dependencyManagement>

@@ -2,6 +2,7 @@ package webshop.notifications.api;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

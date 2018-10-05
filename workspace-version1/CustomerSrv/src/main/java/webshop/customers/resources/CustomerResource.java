@@ -17,10 +17,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
-import com.codahale.metrics.annotation.Timed;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
 
 import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
@@ -112,8 +112,7 @@ public class CustomerResource {
 
 		// 1 --> best rating
 		// 6 --> worst rating
-		// TODO Ex1, Task1: Change WORST_ALLOWED_RATING
-		final int WORST_ALLOWED_RATING = 3;
+		final int WORST_ALLOWED_RATING = 4;
 		return new CreditRatingCheckResponse(customerId.get(), (rating <= WORST_ALLOWED_RATING));
 	}
 }

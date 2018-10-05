@@ -1,6 +1,7 @@
 package webshop.customers.api;
 
 import javax.validation.constraints.Min;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreditRatingCheckResponse {

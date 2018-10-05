@@ -17,6 +17,9 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codahale.metrics.annotation.Timed;
 
 import io.dropwizard.jersey.params.IntParam;
@@ -29,9 +32,6 @@ import webshop.notifications.api.NewProductMailRequest;
 import webshop.notifications.api.Order;
 import webshop.notifications.api.Product;
 import webshop.notifications.db.MailRepository;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
